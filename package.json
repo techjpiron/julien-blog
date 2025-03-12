@@ -34,7 +34,13 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "esbuild",
       "msw"
     ]
-  }
+  },
+  "engines": {
+    "node": ">=23",
+    "pnpm": ">=10"
+  },
+  "packageManager": "pnpm@10.6.2"
 }
