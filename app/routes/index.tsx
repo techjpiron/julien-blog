@@ -14,21 +14,26 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const { posts } = loaderData;
 
   return (
-    <main>
-      <h1>Welcome to my Blog</h1>
-      <ul className="grid grid-cols-3 gap-4">
-        {posts.map((post) => (
-          <li key={post.id} className="block border border-white p-4">
-            <Link
-              to={href("/posts/:postId", { postId: String(post.id) })}
-              prefetch="viewport"
-            >
-              <h1>{post.title}</h1>
-              <p>{post.body}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <>
+      <header>
+        <Link to={href("/posts/new")}>New Post</Link>
+      </header>
+      <main>
+        <h1>Welcome to my Blog</h1>
+        <ul className="grid grid-cols-3 gap-4">
+          {posts.map((post) => (
+            <li key={post.id} className="block border border-white p-4">
+              <Link
+                to={href("/posts/:postId", { postId: String(post.id) })}
+                prefetch="viewport"
+              >
+                <h1>{post.title}</h1>
+                <p>{post.body}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </>
   );
 }
