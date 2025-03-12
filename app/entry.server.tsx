@@ -8,6 +8,8 @@ import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
 import "./mock.server";
 
+console.log("Hello from server");
+
 export const streamTimeout = 5_000;
 
 export default function handleRequest(

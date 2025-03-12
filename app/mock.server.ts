@@ -3,6 +3,8 @@ import { bypass, http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import { PostSchema } from "./schema";
 
+console.log("Starting mock server");
+
 let nextPostId = 101;
 
 const db = factory({
