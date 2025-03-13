@@ -5,11 +5,13 @@ import { href, Link } from "react-router";
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
 
-  const post = await fetch(
+  const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${postId}`,
-  )
-    .then((response) => response.json())
-    .then(PostSchema.parse);
+  );
+  if (!response.ok) {
+    throw response;
+  }
+  const post = PostSchema.parse(await response.json());
 
   return { post };
 }
@@ -21,6 +23,9 @@ export default function Post({ loaderData }: Route.ComponentProps) {
       <header>
         <Link to={href("/posts/:postId/edit", { postId: String(post.id) })}>
           Edit
+        </Link>
+        <Link to={href("/posts/:postId/delete", { postId: String(post.id) })}>
+          Delete
         </Link>
       </header>
       <article>

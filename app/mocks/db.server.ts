@@ -1,5 +1,5 @@
 import { drop, factory, primaryKey } from "@mswjs/data";
-import data from "./data.json";
+import data from "./data.json" with { type: "json" };
 
 let nextPostIndex = 101;
 

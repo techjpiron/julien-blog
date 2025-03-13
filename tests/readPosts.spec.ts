@@ -1,4 +1,9 @@
 import { test, expect } from "@playwright/test";
+import { seedDb } from "~/mocks/db.server";
+
+test.beforeEach(() => {
+  seedDb();
+});
 
 test("read posts", async ({ page }) => {
   await page.goto("/");
