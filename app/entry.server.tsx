@@ -6,7 +6,9 @@ import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
 import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
-import "./mocks/mocks.server";
+import { setup } from "./mocks/setup.server";
+
+setup();
 
 export const streamTimeout = 5_000;
 

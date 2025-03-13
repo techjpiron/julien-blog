@@ -1,22 +1,7 @@
-import { factory, primaryKey } from "@mswjs/data";
-import { setupServer } from "msw/node";
-import data from "./data.json";
 import { bypass, http, HttpResponse } from "msw";
+import { db, getNextPostIndex } from "./db.server";
 
-let nextIndex = 101;
-
-const db = factory({
-  post: {
-    id: primaryKey(() => nextIndex++),
-    title: String,
-    body: String,
-    userId: () => 0,
-  },
-});
-
-data.posts.forEach((post) => db.post.create(post));
-
-const server = setupServer(
+export const handlers = [
   http.post(
     "https://jsonplaceholder.typicode.com/posts",
     async ({ request }) => {
@@ -29,16 +14,14 @@ const server = setupServer(
       }
 
       // If everything goes well, save the post
-      const data = response.json();
+      const data = await response.json();
       db.post.create({
         ...data,
-        id: nextIndex++,
+        id: getNextPostIndex(),
       });
 
       return HttpResponse.json(data, { status: 201 });
     },
   ),
   ...db.post.toHandlers("rest", "https://jsonplaceholder.typicode.com/"),
-);
-
-server.listen();
+];
