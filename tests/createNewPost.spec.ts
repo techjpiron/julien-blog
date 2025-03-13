@@ -1,7 +1,7 @@
 import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
-test("create a new poste", async ({ page }) => {
+test("create a new post", async ({ page }) => {
   const title = faker.lorem.sentence();
   const body = faker.lorem.paragraph();
 

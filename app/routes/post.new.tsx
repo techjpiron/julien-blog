@@ -21,10 +21,6 @@ export async function action({ request }: Route.ActionArgs) {
     },
   })
     .then((response) => response.json())
-    .then((d) => {
-      console.log(d);
-      return d;
-    })
     .then(PostSchema.parse);
 
   return redirect(href("/posts/:postId", { postId: String(newPost.id) }));
