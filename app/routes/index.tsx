@@ -15,25 +15,23 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <header>
-        <Link to={href("/posts/new")}>New Post</Link>
-      </header>
-      <main>
-        <h1>Welcome to my Blog</h1>
-        <ul className="grid grid-cols-3 gap-4">
-          {posts.map((post) => (
-            <li key={post.id} className="block border border-white p-4">
-              <Link
-                to={href("/posts/:postId", { postId: String(post.id) })}
-                prefetch="viewport"
-              >
-                <h1>{post.title}</h1>
-                <p>{post.body}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </main>
+      <h1 className="text-6xl font-bold text-balance">Welcome to my Blog</h1>
+      <ul className="mt-16 grid grid-cols-3 gap-4 items-stretch">
+        {posts.map((post) => (
+          <li key={post.id} className="h-full">
+            <Link
+              className="border p-4 block h-full"
+              to={href("/posts/:postId", { postId: String(post.id) })}
+              prefetch="viewport"
+            >
+              <h1 className="font-bold capitalize text-balance">
+                {post.title}
+              </h1>
+              <p>{post.body}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

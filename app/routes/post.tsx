@@ -20,17 +20,25 @@ export default function Post({ loaderData }: Route.ComponentProps) {
   const { post } = loaderData;
   return (
     <>
-      <header>
-        <Link to={href("/posts/:postId/edit", { postId: String(post.id) })}>
-          Edit
-        </Link>
-        <Link to={href("/posts/:postId/delete", { postId: String(post.id) })}>
-          Delete
-        </Link>
-      </header>
       <article>
-        <h1>{post.title}</h1>
-        <p>{post.body}</p>
+        <h1 className="text-6xl font-bold capitalize text-balance">
+          {post.title}
+        </h1>
+        <div className="flex gap-2 mt-4">
+          <Link
+            className="underline"
+            to={href("/posts/:postId/edit", { postId: String(post.id) })}
+          >
+            Edit
+          </Link>
+          <Link
+            className="underline"
+            to={href("/posts/:postId/delete", { postId: String(post.id) })}
+          >
+            Delete
+          </Link>
+        </div>
+        <p className="mt-4 text-gray-600">{post.body}</p>
       </article>
       <Outlet />
     </>
