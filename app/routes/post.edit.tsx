@@ -1,6 +1,12 @@
 import { Form, href, redirect } from "react-router";
 import type { Route } from "./+types/post.edit";
 import { PostSchema } from "~/schemas";
+import { Dialog } from "~/components/Dialog";
+import { Heading } from "react-aria-components";
+import { Modal } from "~/components/Modal";
+import { Button } from "~/components/Button";
+import { Input, Label, TextArea, TextField } from "~/components/Field";
+import { PostForm } from "~/components/post/PostForm";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
@@ -40,19 +46,10 @@ export default function EditPost({ loaderData }: Route.ComponentProps) {
   const { post } = loaderData;
 
   return (
-    <dialog open>
-      <Form method="POST">
-        <h1>Edit Post</h1>
-        <label>
-          Title
-          <input name="title" defaultValue={post.title} />
-        </label>
-        <label>
-          Content
-          <input name="body" defaultValue={post.body} />
-        </label>
-        <button type="submit">Save</button>
-      </Form>
-    </dialog>
+    <Modal isOpen>
+      <Dialog>
+        <PostForm defaultValue={post} />
+      </Dialog>
+    </Modal>
   );
 }

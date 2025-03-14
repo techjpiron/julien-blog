@@ -1,6 +1,9 @@
-import { Form, href, redirect } from "react-router";
+import { href, redirect } from "react-router";
 import type { Route } from "./+types/post.new";
 import { PostSchema } from "~/schemas";
+import { PostForm } from "~/components/post/PostForm";
+import { Modal } from "~/components/Modal";
+import { Dialog } from "~/components/Dialog";
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
@@ -28,17 +31,10 @@ export async function action({ request }: Route.ActionArgs) {
 
 export default function NewPost() {
   return (
-    <Form method="POST">
-      <h1>New Post</h1>
-      <label>
-        Title
-        <input name="title" />
-      </label>
-      <label>
-        Content
-        <textarea name="body" />
-      </label>
-      <button type="submit">Save</button>
-    </Form>
+    <Modal isOpen>
+      <Dialog>
+        <PostForm />
+      </Dialog>
+    </Modal>
   );
 }

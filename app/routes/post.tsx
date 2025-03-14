@@ -1,6 +1,6 @@
 import { PostSchema } from "~/schemas";
-import type { Route } from "./+types/post.index";
-import { href, Link } from "react-router";
+import type { Route } from "./+types/post";
+import { href, Link, Outlet } from "react-router";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
@@ -32,6 +32,7 @@ export default function Post({ loaderData }: Route.ComponentProps) {
         <h1>{post.title}</h1>
         <p>{post.body}</p>
       </article>
+      <Outlet />
     </>
   );
 }
