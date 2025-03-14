@@ -1,9 +1,9 @@
 import { Form, href, redirect } from "react-router";
 import type { Route } from "./+types/post.delete";
-import { Modal } from "~/components/Modal";
-import { Dialog } from "~/components/Dialog";
 import { Heading } from "react-aria-components";
-import { Button, ButtonLink } from "~/components/Button";
+import { Modal } from "~/components/ui/Modal";
+import { Dialog } from "~/components/ui/Dialog";
+import { Button, ButtonLink } from "~/components/ui/Button";
 
 export async function action({ params }: Route.ActionArgs) {
   await fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`, {

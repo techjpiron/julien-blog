@@ -2,8 +2,8 @@ import { href, redirect } from "react-router";
 import type { Route } from "./+types/post.new";
 import { PostSchema } from "~/schemas";
 import { PostForm } from "~/components/post/PostForm";
-import { Modal } from "~/components/Modal";
-import { Dialog } from "~/components/Dialog";
+import { Modal } from "~/components/ui/Modal";
+import { Dialog } from "~/components/ui/Dialog";
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();

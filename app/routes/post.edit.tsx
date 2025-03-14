@@ -1,12 +1,9 @@
-import { Form, href, redirect } from "react-router";
+import { href, redirect } from "react-router";
 import type { Route } from "./+types/post.edit";
 import { PostSchema } from "~/schemas";
-import { Dialog } from "~/components/Dialog";
-import { Heading } from "react-aria-components";
-import { Modal } from "~/components/Modal";
-import { Button } from "~/components/Button";
-import { Input, Label, TextArea, TextField } from "~/components/Field";
 import { PostForm } from "~/components/post/PostForm";
+import { Dialog } from "~/components/ui/Dialog";
+import { Modal } from "~/components/ui/Modal";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;

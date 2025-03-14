@@ -22,3 +22,14 @@ test("go back from post view to homepage", async ({ page }) => {
   await page.getByRole("link", { name: /Julien's Blog/ }).click();
   await expect(page).toHaveURL("/");
 });
+
+test("look at different pages of posts on homepage", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page.locator("article")).toHaveCount(12);
+
+  await page.getByRole("link", { name: /next page/i }).click();
+
+  await page.waitForURL("/?p=2");
+  await expect(page.locator("article")).toHaveCount(12);
+});

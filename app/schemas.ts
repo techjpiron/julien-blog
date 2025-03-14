@@ -6,5 +6,7 @@ export const PostSchema = z.object({
   body: z.string(),
   userId: z.coerce.number(),
 });
+export type Post = z.infer<typeof PostSchema>;
 
 export const PostCollectionSchema = z.array(PostSchema);
+export type PostCollection = z.infer<typeof PostCollectionSchema>;
