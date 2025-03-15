@@ -1,8 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { seedDb } from "~/mocks/db.server";
 
-test.beforeEach(() => {
-  seedDb();
+test.beforeEach(async ({ request }) => {
+  await request.post("/reset");
 });
 
 test("read posts", async ({ page }) => {
@@ -19,7 +18,7 @@ test("read posts", async ({ page }) => {
 test("go back from post view to homepage", async ({ page }) => {
   await page.goto("/posts/1");
 
-  await page.getByRole("link", { name: /Julien's Blog/ }).click();
+  await page.getByRole("link", { name: "Julien's Blog" }).click();
   await expect(page).toHaveURL("/");
 });
 

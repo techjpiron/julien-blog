@@ -10,7 +10,8 @@
     "start": "react-router-serve ./build/server/index.js",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "prepare": "husky"
   },
   "dependencies": {
     "@mswjs/data": "^0.16.2",
@@ -39,6 +40,8 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "react-router-devtools": "^1.1.0",
@@ -48,7 +51,7 @@
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.4"
   },
-  "packageManager": "pnpm@10.6.2",
+  "packageManager": "pnpm@10.6.3",
   "pnpm": {
     "onlyBuiltDependencies": [
       "msw"

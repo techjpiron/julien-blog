@@ -19,18 +19,17 @@ export function PaginatedPreviewGrid({
   const selectedPosts = posts.slice(start, end);
 
   const maxPage = Math.ceil(posts.length / count);
-  console.log(maxPage);
 
   return (
     <>
-      <ul className="grid grid-cols-3 gap-4 mt-8">
+      <ul className="mt-8 grid grid-cols-3 gap-4">
         {selectedPosts.map((post) => (
           <li key={post.id}>
             <PostPreviewCard post={post} />
           </li>
         ))}
       </ul>
-      <div className="flex justify-between my-8">
+      <div className="my-8 flex justify-between">
         {page > 1 ? (
           <Link to={`?p=${page - 1}`}>&larr; Previous Page</Link>
         ) : (

@@ -1,7 +1,7 @@
 import { Form } from "react-router";
 import { Heading } from "react-aria-components";
-import { Button } from "~/components/Button";
-import { Input, Label, TextArea, TextField } from "~/components/Field";
+import { Button } from "~/components/ui/Button";
+import { Input, Label, TextArea, TextField } from "~/components/ui/Field";
 export function PostForm({
   defaultValue,
 }: {
