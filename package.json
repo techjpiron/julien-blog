@@ -5,6 +5,8 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
+    "format": "prettier . --write",
+    "lint": "eslint ./app",
     "start": "react-router-serve ./build/server/index.js",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
@@ -25,6 +27,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@faker-js/faker": "^9.6.0",
     "@playwright/test": "^1.51.0",
     "@react-router/dev": "^7.3.0",
@@ -32,9 +35,16 @@
     "@types/node": "^20",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "react-router-devtools": "^1.1.0",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.2",
+    "typescript-eslint": "^8.26.1",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.4"
   },
