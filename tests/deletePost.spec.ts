@@ -34,5 +34,5 @@ test("delete post", async ({ page }) => {
   // Assert that the post deleted
   await expect(page).toHaveURL("/");
   await page.goto(postPageUrl);
-  await expect(page.getByText("could not be found")).toBeVisible();
+  await expect(page.getByText("is missing")).toBeVisible();
 });

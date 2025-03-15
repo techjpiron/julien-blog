@@ -22,6 +22,17 @@ test("go back from post view to homepage", async ({ page }) => {
   await expect(page).toHaveURL("/");
 });
 
+test("get a 404 when looking a post that does not exist", async ({ page }) => {
+  await page.goto("/posts/123123123");
+
+  await expect(
+    page.getByRole("heading", { name: /is missing/i }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: /homepage/i }).click();
+
+  await expect(page).toHaveURL("/");
+});
+
 test("look at different pages of posts on homepage", async ({ page }) => {
   await page.goto("/");
 

@@ -1,6 +1,6 @@
 import { PostSchema } from "~/schemas";
 import type { Route } from "./+types/post";
-import { href, Link, Outlet } from "react-router";
+import { href, isRouteErrorResponse, Link, Outlet } from "react-router";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
@@ -16,15 +16,35 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { post };
 }
 
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return (
+      <>
+        <h1 className="text-6xl font-bold text-balance capitalize">
+          The Post You&apos;re Looking for is missing...
+        </h1>
+        <p className="mt-4 text-gray-600">
+          We&apos;re investigating this case.
+        </p>
+        <Link to={href("/")} className="mt-4">
+          Go back to homepage
+        </Link>
+      </>
+    );
+  }
+
+  throw error;
+}
+
 export default function Post({ loaderData }: Route.ComponentProps) {
   const { post } = loaderData;
   return (
     <>
       <article>
-        <h1 className="text-6xl font-bold capitalize text-balance">
+        <h1 className="text-6xl font-bold text-balance capitalize">
           {post.title}
         </h1>
-        <div className="flex gap-2 mt-4">
+        <div className="mt-4 flex gap-2">
           <Link
             className="underline"
             to={href("/posts/:postId/edit", { postId: String(post.id) })}
