@@ -1,9 +1,11 @@
-import { href, redirect } from "react-router";
+import { href, redirect, Form, useNavigation } from "react-router";
 import type { Route } from "./+types/post.new";
 import { PostSchema } from "~/schemas";
-import { PostForm } from "~/components/post/PostForm";
 import { Modal } from "~/components/ui/Modal";
 import { Dialog } from "~/components/ui/Dialog";
+import { Heading } from "react-aria-components";
+import { Button } from "~/components/ui/Button";
+import { Input, Label, TextArea, TextField } from "~/components/ui/Field";
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
@@ -30,10 +32,25 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function NewPost() {
+  const navigation = useNavigation();
+
   return (
     <Modal isOpen>
       <Dialog>
-        <PostForm />
+        <Form method="POST">
+          <Heading slot="title">Edit Post</Heading>
+          <TextField name="title">
+            <Label>Title</Label>
+            <Input />
+          </TextField>
+          <TextField name="body">
+            <Label>Content</Label>
+            <TextArea />
+          </TextField>
+          <Button variant="primary" type="submit" className="mt-4">
+            {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}
+          </Button>
+        </Form>
       </Dialog>
     </Modal>
   );

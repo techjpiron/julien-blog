@@ -12,7 +12,10 @@ test("create a new post", async ({ page }) => {
 
   await page.getByLabel(/title/i).fill(title);
   await page.getByLabel(/content/i).fill(body);
+
   await page.getByRole("button", { name: /save/i }).click();
+
+  await expect(page.getByRole("button", { name: /saving.../i })).toBeVisible();
 
   await expect(page).toHaveURL(/\/posts\/\d+\/?$/);
   await expect(page.getByRole("heading")).toContainText(title);

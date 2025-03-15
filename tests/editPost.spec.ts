@@ -23,7 +23,11 @@ test("edit post", async ({ page }) => {
 
   await page.getByLabel(/title/i).fill(`[EDITED] ${title}`);
   await page.getByLabel(/content/i).fill(`[EDITED] ${body}`);
-  await page.getByRole("button", { name: /save/i }).click();
+  await page.getByRole("button", { name: /update/i }).click();
+
+  await expect(
+    page.getByRole("button", { name: /updating.../i }),
+  ).toBeVisible();
 
   // Assert that the post was modified
   await expect(page).toHaveURL(/\/posts\/\d+\/?$/);

@@ -2,7 +2,6 @@ import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 
 test("delete post", async ({ page }) => {
-  let postPageUrl: string;
   const title = faker.lorem.sentence();
   const body = faker.lorem.paragraph();
 
@@ -14,7 +13,7 @@ test("delete post", async ({ page }) => {
   await page.getByRole("button", { name: /save/i }).click();
 
   await page.waitForURL(/\/posts\/\d+\/?/);
-  postPageUrl = page.url();
+  const postPageUrl = page.url();
 
   // Can cancel
   await page.getByRole("link", { name: /delete/i }).click();
@@ -27,6 +26,10 @@ test("delete post", async ({ page }) => {
   await page.getByRole("link", { name: /delete/i }).click();
   await expect(page).toHaveURL(/\/posts\/\d+\/delete\/?$/);
   await page.getByRole("button", { name: /delete/i }).click();
+
+  await expect(
+    page.getByRole("button", { name: /deleting.../i }),
+  ).toBeVisible();
 
   // Assert that the post deleted
   await expect(page).toHaveURL("/");

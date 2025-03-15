@@ -1,4 +1,4 @@
-import { Form, href, redirect } from "react-router";
+import { Form, href, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/post.delete";
 import { Heading } from "react-aria-components";
 import { Modal } from "~/components/ui/Modal";
@@ -13,19 +13,23 @@ export async function action({ params }: Route.ActionArgs) {
   return redirect(href("/"));
 }
 
-export default function DeletePost() {
+export default function DeletePost({ params }: Route.ComponentProps) {
+  const { postId } = params;
+  const navigation = useNavigation();
   return (
     <Modal isOpen>
       <Dialog>
         <Form method="POST">
           <Heading slot="title">Delete Post</Heading>
           <p>Are you sure?</p>
-          <div className="grid gap-2 grid-cols-2">
+          <div className="grid grid-cols-2 gap-2">
             <ButtonLink to={".."} variant="secondary" autoFocus>
               Cancel
             </ButtonLink>
             <Button type="submit" variant="destructive">
-              Delete
+              {navigation.formAction?.match(`/posts/${postId}/delete`)
+                ? "Deleting..."
+                : "Delete"}
             </Button>
           </div>
         </Form>
