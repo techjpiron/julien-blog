@@ -57,3 +57,17 @@ test("see image on post page", async ({ page }) => {
 
   await expect(page.locator("img")).toBeVisible();
 });
+
+test("filter posts", async ({ page }) => {
+  await page.goto("/");
+
+  const searchField = page.getByLabel(/search posts/i);
+
+  await searchField.fill("nihil");
+  await searchField.press("Enter");
+
+  expect(page).toHaveURL("/?q=nihil&p=1");
+
+  expect(page.getByRole("article").first()).toHaveText(/nihil/i);
+  expect(await page.getByRole("article").all()).toHaveLength(2);
+});

@@ -23,6 +23,6 @@ export default defineConfig({
   webServer: {
     command: isCIenv ? "pnpm build && pnpm start" : "pnpm dev",
     url: isCIenv ? "http://localhost:3000" : "http://localhost:5173",
-    reuseExistingServer: isCIenv,
+    reuseExistingServer: !isCIenv,
   },
 });
