@@ -11,11 +11,12 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "typecheck": "react-router typegen && tsc",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "dependencies": {
     "@conform-to/react": "^1.2.2",
     "@conform-to/zod": "^1.2.2",
+    "@faker-js/faker": "^9.6.0",
     "@mswjs/data": "^0.16.2",
     "@react-router/node": "^7.3.0",
     "@react-router/serve": "^7.3.0",
@@ -34,7 +35,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
-    "@faker-js/faker": "^9.6.0",
     "@playwright/test": "^1.51.0",
     "@react-router/dev": "^7.3.0",
     "@tailwindcss/vite": "^4.0.14",
