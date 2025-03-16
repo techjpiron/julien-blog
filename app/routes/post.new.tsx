@@ -1,26 +1,31 @@
 import { href, redirect, Form, useNavigation } from "react-router";
 import type { Route } from "./+types/post.new";
-import { PostSchema } from "~/schemas";
+import { InsertPostSchema, PostSchema } from "~/schemas";
 import { Modal } from "~/components/ui/Modal";
 import { Dialog } from "~/components/ui/Dialog";
-import { Heading } from "react-aria-components";
+import { FieldError, Heading } from "react-aria-components";
 import { Button } from "~/components/ui/Button";
 import { Input, Label, TextArea, TextField } from "~/components/ui/Field";
+import { parseWithZod } from "@conform-to/zod";
+import {
+  useForm,
+  getFormProps,
+  getInputProps,
+  getTextareaProps,
+} from "@conform-to/react";
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
 
-  const title = formData.get("title");
-  const body = formData.get("body");
-  const data = PostSchema.omit({ id: true }).parse({
-    title,
-    body,
-    userId: 0,
-  });
+  const submission = parseWithZod(formData, { schema: InsertPostSchema });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
 
   const newPost = await fetch("https://jsonplaceholder.typicode.com/posts", {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify(submission.value),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
@@ -31,21 +36,34 @@ export async function action({ request }: Route.ActionArgs) {
   return redirect(href("/posts/:postId", { postId: String(newPost.id) }));
 }
 
-export default function NewPost() {
+export default function NewPost({ actionData }: Route.ComponentProps) {
   const navigation = useNavigation();
+  const [form, { title, body }] = useForm({
+    lastResult: actionData,
+    onValidate: ({ formData }) =>
+      parseWithZod(formData, { schema: InsertPostSchema }),
+    shouldValidate: "onSubmit",
+    shouldRevalidate: "onInput",
+  });
 
   return (
     <Modal isOpen>
       <Dialog>
-        <Form method="POST">
-          <Heading slot="title">Edit Post</Heading>
-          <TextField name="title">
+        <Form method="POST" {...getFormProps(form)}>
+          <Heading slot="title">Create Post</Heading>
+          <TextField
+            {...getInputProps(title, { type: "text" })}
+            isInvalid={!title.valid}
+            autoComplete="off"
+          >
             <Label>Title</Label>
             <Input />
+            <FieldError>{title.errors?.[0]}</FieldError>
           </TextField>
-          <TextField name="body">
+          <TextField {...getTextareaProps(body)} isInvalid={!body.valid}>
             <Label>Content</Label>
             <TextArea />
+            <FieldError>{body.errors?.[0]}</FieldError>
           </TextField>
           <Button variant="primary" type="submit" className="mt-4">
             {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}

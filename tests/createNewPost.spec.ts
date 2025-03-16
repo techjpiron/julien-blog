@@ -21,3 +21,36 @@ test("create a new post", async ({ page }) => {
   await expect(page.getByRole("heading")).toContainText(title);
   await expect(page.getByText(body)).toBeVisible();
 });
+
+test("get errors when the form is not valid", async ({ page }) => {
+  await page.goto("/posts/new");
+
+  await page.getByRole("button", { name: /save/i }).click();
+
+  await expect(page.getByLabel(/title/i)).toHaveAccessibleDescription(
+    "Required",
+  );
+  await expect(page.getByLabel(/content/i)).toHaveAccessibleDescription(
+    "Required",
+  );
+
+  await page.getByLabel(/title/i).fill("T");
+  await page.getByLabel(/content/i).fill("Lo");
+
+  await expect(page.getByLabel(/title/i)).toHaveAccessibleDescription(
+    "Your title must contain at least 2 characters",
+  );
+  await expect(page.getByLabel(/content/i)).toHaveAccessibleDescription(
+    "Your content must contain at least 5 characters",
+  );
+
+  await page.getByLabel(/title/i).fill("The best title");
+  await page.getByLabel(/content/i).fill("Lorem ipsum");
+
+  await expect(page.getByLabel(/title/i)).not.toHaveAccessibleDescription(
+    "Your title must contain at least 2 characters",
+  );
+  await expect(page.getByLabel(/content/i)).not.toHaveAccessibleDescription(
+    "Your content must contain at least 5 characters",
+  );
+});
