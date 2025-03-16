@@ -1,4 +1,5 @@
 import { createCookieSessionStorage } from "react-router";
+import { env } from "./env.server";
 
 type SessionData = never;
 type SessionFlashData = {
@@ -12,5 +13,6 @@ export const { commitSession, getSession, destroySession } =
       httpOnly: true,
       sameSite: "lax",
       secure: true,
+      secrets: [env.APP_SECRET],
     },
   });
