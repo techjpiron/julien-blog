@@ -1,14 +1,16 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const isCIenv: boolean = !!process.env.CI;
+
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  forbidOnly: isCIenv,
+  retries: 2,
+  workers: 1,
   reporter: "html",
   use: {
-    baseURL: "http://localhost:5173",
+    baseURL: isCIenv ? "http://localhost:3000" : "http://localhost:5173",
     trace: "on-first-retry",
   },
   projects: [
@@ -18,4 +20,9 @@ export default defineConfig({
     },
   ],
   outputDir: "playwright-results",
+  webServer: {
+    command: isCIenv ? "pnpm build && pnpm start" : "pnpm dev",
+    url: isCIenv ? "http://localhost:3000" : "http://localhost:5173",
+    reuseExistingServer: isCIenv,
+  },
 });

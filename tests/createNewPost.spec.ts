@@ -17,7 +17,16 @@ test("create a new post", async ({ page }) => {
 
   await expect(page.getByRole("button", { name: /saving.../i })).toBeVisible();
 
-  await expect(page).toHaveURL(/\/posts\/\d+\/?$/);
+  await page.waitForURL(/\/posts\/\d+\/?$/);
+
+  // Assert that a notification is visible
+  await expect(
+    page
+      .getByRole("alertdialog")
+      .filter({ hasText: /your post was successfully created/i }),
+  ).toBeVisible();
+
+  // Assert that the post was created
   await expect(page.getByRole("heading")).toContainText(title);
   await expect(page.getByText(body)).toBeVisible();
 });

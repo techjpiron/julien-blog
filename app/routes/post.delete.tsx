@@ -4,13 +4,24 @@ import { Heading } from "react-aria-components";
 import { Modal } from "~/components/ui/Modal";
 import { Dialog } from "~/components/ui/Dialog";
 import { Button, ButtonLink } from "~/components/ui/Button";
+import { commitSession, getSession } from "~/session.server";
 
-export async function action({ params }: Route.ActionArgs) {
+export async function action({ params, request }: Route.ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
   await fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`, {
     method: "DELETE",
   });
 
-  return redirect(href("/"));
+  session.flash("notifications", [
+    { message: "The post was successfully deleted", timeout: 5_000 },
+  ]);
+
+  return redirect(href("/"), {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }
 
 export default function DeletePost({ params }: Route.ComponentProps) {

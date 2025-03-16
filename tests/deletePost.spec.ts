@@ -32,6 +32,11 @@ test("delete post", async ({ page }) => {
   ).toBeVisible();
 
   // Assert that the post deleted
+  await expect(
+    page
+      .getByRole("alertdialog")
+      .filter({ hasText: /The post was successfully deleted/i }),
+  ).toBeVisible();
   await expect(page).toHaveURL("/");
   await page.goto(postPageUrl);
   await expect(page.getByText("is missing")).toBeVisible();

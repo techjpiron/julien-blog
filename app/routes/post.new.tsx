@@ -13,8 +13,11 @@ import {
   getInputProps,
   getTextareaProps,
 } from "@conform-to/react";
+import { commitSession, getSession } from "~/session.server";
 
 export async function action({ request }: Route.ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
   const formData = await request.formData();
 
   const submission = parseWithZod(formData, { schema: InsertPostSchema });
@@ -33,7 +36,15 @@ export async function action({ request }: Route.ActionArgs) {
     .then((response) => response.json())
     .then(PostSchema.parse);
 
-  return redirect(href("/posts/:postId", { postId: String(newPost.id) }));
+  session.flash("notifications", [
+    { message: "Your post was successfully created!", timeout: 5_000 },
+  ]);
+
+  return redirect(href("/posts/:postId", { postId: String(newPost.id) }), {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }
 
 export default function NewPost({ actionData }: Route.ComponentProps) {

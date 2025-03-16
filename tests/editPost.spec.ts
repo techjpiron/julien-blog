@@ -29,8 +29,16 @@ test("edit post", async ({ page }) => {
     page.getByRole("button", { name: /updating.../i }),
   ).toBeVisible();
 
-  // Assert that the post was modified
-  await expect(page).toHaveURL(/\/posts\/\d+\/?$/);
+  await page.waitForURL(/\/posts\/\d+\/?$/);
+
+  // Assert that a notification is visible
+  await expect(
+    page
+      .getByRole("alertdialog")
+      .filter({ hasText: /your post was successfully modified/i }),
+  ).toBeVisible();
+
+  // Assert that the post was changed
   await expect(page.getByRole("heading")).toContainText(title);
   await expect(page.getByText(body)).toBeVisible();
 });

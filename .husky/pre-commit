@@ -1,3 +1,4 @@
 pnpm typecheck
 pnpm lint-staged
-CI=true pnpm test
+pnpm build
+pnpm test

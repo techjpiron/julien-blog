@@ -13,6 +13,7 @@ import { Button } from "~/components/ui/Button";
 import { Input, Label, TextArea, TextField } from "~/components/ui/Field";
 import { Dialog } from "~/components/ui/Dialog";
 import { Modal } from "~/components/ui/Modal";
+import { commitSession, getSession } from "~/session.server";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
@@ -27,6 +28,8 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
   const formData = await request.formData();
 
   const submission = parseWithZod(formData, { schema: UpdatePostSchema });
@@ -43,7 +46,18 @@ export async function action({ request, params }: Route.ActionArgs) {
     },
   });
 
-  return redirect(href("/posts/:postId", { postId: String(params.postId) }));
+  session.flash("notifications", [
+    {
+      message: "Your post was successfully modified!",
+      timeout: 5000,
+    },
+  ]);
+
+  return redirect(href("/posts/:postId", { postId: String(params.postId) }), {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }
 
 export default function EditPost({
@@ -66,7 +80,6 @@ export default function EditPost({
     <Modal isOpen>
       <Dialog>
         <Form method="POST" {...getFormProps(form)}>
-          <pre>{JSON.stringify(navigation.formAction)}</pre>
           <Heading slot="title">Edit Post</Heading>
           <input {...getInputProps(fields.id, { type: "hidden" })} />
           <TextField
