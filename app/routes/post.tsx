@@ -1,6 +1,7 @@
 import { PostSchema } from "~/schemas";
 import type { Route } from "./+types/post";
 import { href, isRouteErrorResponse, Link, Outlet } from "react-router";
+import { Image } from "@unpic/react";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
@@ -58,6 +59,14 @@ export default function Post({ loaderData }: Route.ComponentProps) {
             Delete
           </Link>
         </div>
+        <Image
+          src={post.img}
+          layout="constrained"
+          width={3000}
+          aspectRatio={2.5}
+          background="auto"
+          alt=""
+        />
         <p className="mt-4 text-gray-600">{post.body}</p>
       </article>
       <Outlet />

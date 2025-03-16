@@ -43,3 +43,17 @@ test("look at different pages of posts on homepage", async ({ page }) => {
   await page.waitForURL("/?p=2");
   await expect(page.locator("article")).toHaveCount(12);
 });
+
+test("see image on post page", async ({ page }) => {
+  await page.goto("/");
+
+  const firstArticle = page.getByRole("article").first();
+
+  await expect(firstArticle.locator("img")).toBeVisible();
+
+  await firstArticle.click();
+
+  await page.waitForURL("/posts/*");
+
+  await expect(page.locator("img")).toBeVisible();
+});
