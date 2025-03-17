@@ -31,7 +31,7 @@ export default function Layout({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md transition-all duration-300">
+      <header className="sticky top-0 z-20 w-full bg-white/90 backdrop-blur-md transition-all duration-300">
         <div className="mx-auto flex max-w-6xl justify-between px-4 py-4">
           <Link
             to={href("/")}

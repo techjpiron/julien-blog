@@ -1,6 +1,6 @@
 import { Form, href, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/post.delete";
-import { Modal } from "~/components/ui/Modal";
+import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Dialog } from "~/components/ui/Dialog";
 import { Button } from "~/components/ui/Button";
 import { commitSession, getSession } from "~/session.server";
@@ -40,33 +40,39 @@ export default function DeletePost({ params }: Route.ComponentProps) {
   const isDeleting = navigation.formAction?.match(`/posts/${postId}/delete`);
 
   return (
-    <Modal isOpen>
-      <Dialog>
-        <Form method="POST">
-          <Heading slot="title">Delete Post</Heading>
-          <P>
-            You&apos;re about to delete this post. You won&apos;t be able to
-            undo this action.
-          </P>
-          <div className="mt-4 flex items-baseline gap-2">
-            <Link
-              to={".."}
-              autoFocus
-              onClick={(event) => {
-                if (isDeleting) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-              }}
-            >
-              Cancel
-            </Link>
-            <Button type="submit">
-              {isDeleting ? "Deleting..." : "Delete"}
-            </Button>
-          </div>
-        </Form>
-      </Dialog>
-    </Modal>
+    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+      <Modal
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, stiffness: 30 }}
+      >
+        <Dialog>
+          <Form method="POST">
+            <Heading slot="title">Delete Post</Heading>
+            <P>
+              You&apos;re about to delete this post. You won&apos;t be able to
+              undo this action.
+            </P>
+            <div className="mt-4 flex items-baseline gap-2">
+              <Link
+                to={".."}
+                autoFocus
+                onClick={(event) => {
+                  if (isDeleting) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                }}
+              >
+                Cancel
+              </Link>
+              <Button type="submit">
+                {isDeleting ? "Deleting..." : "Delete"}
+              </Button>
+            </div>
+          </Form>
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   );
 }

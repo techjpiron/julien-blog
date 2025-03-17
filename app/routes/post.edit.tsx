@@ -7,7 +7,7 @@ import { Button } from "~/components/ui/Button";
 import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { Link, Heading } from "~/components/ui/Typography";
 import { Dialog } from "~/components/ui/Dialog";
-import { Modal } from "~/components/ui/Modal";
+import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { commitSession, getSession } from "~/session.server";
 
 export function meta() {
@@ -82,36 +82,42 @@ export default function EditPost({
   });
 
   return (
-    <Modal isOpen>
-      <Dialog>
-        <Form method="POST" {...getFormProps(form)}>
-          <Heading slot="title">Edit Post</Heading>
-          <input {...getInputProps(fields.id, { type: "hidden" })} />
-          <TextField label="Title" field={fields.title}>
-            <Input />
-          </TextField>
-          <TextField label="Content" field={fields.body}>
-            <TextArea />
-          </TextField>
-          <div className="mt-4 flex items-baseline gap-2">
-            <Link
-              to={".."}
-              autoFocus
-              onClick={(event) => {
-                if (isUpdating) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-              }}
-            >
-              Cancel
-            </Link>
-            <Button type="submit">
-              {isUpdating ? "Updating..." : "Update"}
-            </Button>
-          </div>
-        </Form>
-      </Dialog>
-    </Modal>
+    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+      <Modal
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, stiffness: 30 }}
+      >
+        <Dialog>
+          <Form method="POST" {...getFormProps(form)}>
+            <Heading slot="title">Edit Post</Heading>
+            <input {...getInputProps(fields.id, { type: "hidden" })} />
+            <TextField label="Title" field={fields.title}>
+              <Input />
+            </TextField>
+            <TextField label="Content" field={fields.body}>
+              <TextArea />
+            </TextField>
+            <div className="mt-4 flex items-baseline gap-2">
+              <Link
+                to={".."}
+                autoFocus
+                onClick={(event) => {
+                  if (isUpdating) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                }}
+              >
+                Cancel
+              </Link>
+              <Button type="submit">
+                {isUpdating ? "Updating..." : "Update"}
+              </Button>
+            </div>
+          </Form>
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   );
 }

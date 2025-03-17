@@ -1,4 +1,5 @@
 import {
+  href,
   isRouteErrorResponse,
   Links,
   Meta,
@@ -8,6 +9,7 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
+import { H1, Link, P } from "./components/ui/Typography";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,7 +32,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="font-body">
+      <body className="font-body antialiased">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -44,7 +46,7 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
+  let message = "Sorry, something went wrong";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
 
@@ -61,13 +63,20 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="container mx-auto p-4 pt-16">
-      <h1>{message}</h1>
-      <p>{details}</p>
+      <H1>{message}</H1>
+      <P className="text-xl">{details}</P>
       {stack && (
         <pre className="w-full overflow-x-auto p-4">
           <code>{stack}</code>
         </pre>
       )}
+      <Link
+        to={href("/")}
+        onClick={() => window.location.reload()}
+        className="mt-4"
+      >
+        Refresh page
+      </Link>
     </main>
   );
 }

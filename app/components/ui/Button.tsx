@@ -5,7 +5,7 @@ import { focusRing } from "./FocusRing";
 
 const buttonStyles = tv({
   extend: focusRing,
-  base: "px-5 py-2 text-sm text-center transition rounded-lg border border-black/10 dark:border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] dark:shadow-none cursor-default bg-gray-600 hover:bg-gray-700 pressed:bg-gray-800 text-white",
+  base: "px-5 py-2 text-sm text-center duration-300 ease-in-out rounded-lg border border-black/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] cursor-default bg-gray-600 hover:bg-gray-700 pressed:bg-gray-800 text-white transition-colors",
 });
 
 export function Button(props: ButtonProps) {

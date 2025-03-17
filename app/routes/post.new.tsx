@@ -1,7 +1,7 @@
 import { href, redirect, Form, useNavigation } from "react-router";
 import type { Route } from "./+types/post.new";
 import { InsertPostSchema, PostSchema } from "~/schemas";
-import { Modal } from "~/components/ui/Modal";
+import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Dialog } from "~/components/ui/Dialog";
 import { Button } from "~/components/ui/Button";
 import { Input, TextArea, TextField } from "~/components/ui/Form";
@@ -63,21 +63,27 @@ export default function NewPost({ actionData }: Route.ComponentProps) {
   });
 
   return (
-    <Modal isOpen>
-      <Dialog>
-        <Form method="POST" {...getFormProps(form)}>
-          <Heading slot="title">Create Post</Heading>
-          <TextField label="Title" field={title} autoComplete="off">
-            <Input />
-          </TextField>
-          <TextField label="Content" field={body}>
-            <TextArea />
-          </TextField>
-          <Button type="submit" className="mt-4">
-            {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}
-          </Button>
-        </Form>
-      </Dialog>
-    </Modal>
+    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+      <Modal
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, stiffness: 30 }}
+      >
+        <Dialog>
+          <Form method="POST" {...getFormProps(form)}>
+            <Heading slot="title">Create Post</Heading>
+            <TextField label="Title" field={title} autoComplete="off">
+              <Input />
+            </TextField>
+            <TextField label="Content" field={body}>
+              <TextArea />
+            </TextField>
+            <Button type="submit" className="mt-4">
+              {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}
+            </Button>
+          </Form>
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   );
 }

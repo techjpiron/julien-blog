@@ -29,10 +29,10 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  if (isRouteErrorResponse(error) && error.status === 404) {
+  if (isRouteErrorResponse(error) && error.status == 404) {
     return (
       <>
-        <H1>The Post You&apos;re Looking for is missing...</H1>
+        <H1>Sorry, the Post You&apos;re Looking for is missing...</H1>
         <P className="text-xl">We&apos;re investigating this case.</P>
         <Link to={href("/")} className="mt-4">
           Go back to homepage
@@ -41,6 +41,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     );
   }
 
+  // Let index page deal with the issue
   throw error;
 }
 
