@@ -15,6 +15,15 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Modal } from "~/components/ui/Modal";
 import { commitSession, getSession } from "~/session.server";
 
+export function meta() {
+  return [
+    {
+      name: "robots",
+      content: "noindex",
+    },
+  ];
+}
+
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
 

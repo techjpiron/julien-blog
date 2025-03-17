@@ -55,7 +55,7 @@ test("see image on post page", async ({ page }) => {
 
   await page.waitForURL("/posts/*");
 
-  await expect(page.locator("img")).toBeVisible();
+  await expect(page.locator("img").first()).toBeVisible();
 });
 
 test("filter posts", async ({ page }) => {

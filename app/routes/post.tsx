@@ -3,6 +3,16 @@ import type { Route } from "./+types/post";
 import { href, isRouteErrorResponse, Link, Outlet } from "react-router";
 import { Image } from "@unpic/react";
 
+export function meta({ data }: Route.MetaArgs) {
+  return [
+    { title: `${data?.post?.title} | Julien's Blog` },
+    {
+      name: "description",
+      content: data?.post?.body,
+    },
+  ];
+}
+
 export async function loader({ params }: Route.LoaderArgs) {
   const { postId } = params;
 

@@ -6,6 +6,15 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Button, ButtonLink } from "~/components/ui/Button";
 import { commitSession, getSession } from "~/session.server";
 
+export function meta() {
+  return [
+    {
+      name: "robots",
+      content: "noindex",
+    },
+  ];
+}
+
 export async function action({ params, request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 

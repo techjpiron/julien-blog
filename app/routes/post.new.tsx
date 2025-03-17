@@ -15,6 +15,16 @@ import {
 } from "@conform-to/react";
 import { commitSession, getSession } from "~/session.server";
 
+export function meta() {
+  return [
+    { title: "New Post | Julien's Blog" },
+    {
+      name: "robots",
+      content: "noindex",
+    },
+  ];
+}
+
 export async function action({ request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 

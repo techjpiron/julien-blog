@@ -1,3 +1,12 @@
+export function meta() {
+  return [
+    { title: "About | Julien's Blog" },
+    {
+      name: "description",
+      content: "Welcome to Julien's Blog. This is part of his portfolio.",
+    },
+  ];
+}
 export default function About() {
   return (
     <>
