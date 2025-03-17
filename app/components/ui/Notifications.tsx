@@ -6,6 +6,7 @@ import {
   UNSTABLE_ToastQueue as ToastQueue,
   Text,
 } from "react-aria-components";
+import { focusRing } from "./FocusRing";
 
 export const toastQueue = new ToastQueue<{ message: string }>();
 
@@ -13,20 +14,25 @@ export function NotificationCenter() {
   return (
     <ToastRegion
       queue={toastQueue}
-      className="absolute top-4 right-4 grid grid-cols-1 gap-2"
+      className={focusRing({
+        className: "absolute top-8 right-4 z-50 grid grid-cols-1 gap-2",
+      })}
     >
       {({ toast }) => (
         <Toast
           toast={toast}
-          className="z-50 rounded bg-blue-300 px-3 py-2 shadow-xl shadow-blue-300/30"
+          className={focusRing({
+            className:
+              "flex w-full max-w-xs items-center rounded-lg bg-gray-800 p-4 text-gray-400 shadow-sm",
+          })}
         >
-          <ToastContent className="flex items-center space-x-2">
+          <ToastContent className="flex w-full items-center">
             <Text slot="description">{toast.content.message}</Text>
             <Button
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white p-1"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800 p-1.5 text-xl text-gray-500 hover:bg-gray-700 hover:text-white"
               slot="close"
             >
-              x
+              &times;
             </Button>
           </ToastContent>
         </Toast>

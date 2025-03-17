@@ -1,10 +1,10 @@
 import { Form, href, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/post.delete";
-import { Heading } from "react-aria-components";
 import { Modal } from "~/components/ui/Modal";
 import { Dialog } from "~/components/ui/Dialog";
-import { Button, ButtonLink } from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import { commitSession, getSession } from "~/session.server";
+import { Heading, Link, P } from "~/components/ui/Typography";
 
 export function meta() {
   return [
@@ -36,20 +36,33 @@ export async function action({ params, request }: Route.ActionArgs) {
 export default function DeletePost({ params }: Route.ComponentProps) {
   const { postId } = params;
   const navigation = useNavigation();
+
+  const isDeleting = navigation.formAction?.match(`/posts/${postId}/delete`);
+
   return (
     <Modal isOpen>
       <Dialog>
         <Form method="POST">
           <Heading slot="title">Delete Post</Heading>
-          <p>Are you sure?</p>
-          <div className="grid grid-cols-2 gap-2">
-            <ButtonLink to={".."} variant="secondary" autoFocus>
+          <P>
+            You&apos;re about to delete this post. You won&apos;t be able to
+            undo this action.
+          </P>
+          <div className="mt-4 flex items-baseline gap-2">
+            <Link
+              to={".."}
+              autoFocus
+              onClick={(event) => {
+                if (isDeleting) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              }}
+            >
               Cancel
-            </ButtonLink>
-            <Button type="submit" variant="destructive">
-              {navigation.formAction?.match(`/posts/${postId}/delete`)
-                ? "Deleting..."
-                : "Delete"}
+            </Link>
+            <Button type="submit">
+              {isDeleting ? "Deleting..." : "Delete"}
             </Button>
           </div>
         </Form>

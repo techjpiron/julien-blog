@@ -3,17 +3,12 @@ import type { Route } from "./+types/post.new";
 import { InsertPostSchema, PostSchema } from "~/schemas";
 import { Modal } from "~/components/ui/Modal";
 import { Dialog } from "~/components/ui/Dialog";
-import { FieldError, Heading } from "react-aria-components";
 import { Button } from "~/components/ui/Button";
-import { Input, Label, TextArea, TextField } from "~/components/ui/Field";
+import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { parseWithZod } from "@conform-to/zod";
-import {
-  useForm,
-  getFormProps,
-  getInputProps,
-  getTextareaProps,
-} from "@conform-to/react";
+import { useForm, getFormProps } from "@conform-to/react";
 import { commitSession, getSession } from "~/session.server";
+import { Heading } from "~/components/ui/Typography";
 
 export function meta() {
   return [
@@ -72,21 +67,13 @@ export default function NewPost({ actionData }: Route.ComponentProps) {
       <Dialog>
         <Form method="POST" {...getFormProps(form)}>
           <Heading slot="title">Create Post</Heading>
-          <TextField
-            {...getInputProps(title, { type: "text" })}
-            isInvalid={!title.valid}
-            autoComplete="off"
-          >
-            <Label>Title</Label>
+          <TextField label="Title" field={title} autoComplete="off">
             <Input />
-            <FieldError>{title.errors?.[0]}</FieldError>
           </TextField>
-          <TextField {...getTextareaProps(body)} isInvalid={!body.valid}>
-            <Label>Content</Label>
+          <TextField label="Content" field={body}>
             <TextArea />
-            <FieldError>{body.errors?.[0]}</FieldError>
           </TextField>
-          <Button variant="primary" type="submit" className="mt-4">
+          <Button type="submit" className="mt-4">
             {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}
           </Button>
         </Form>

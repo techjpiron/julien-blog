@@ -1,7 +1,8 @@
-import { PostSchema } from "~/schemas";
+import { href, isRouteErrorResponse, Outlet } from "react-router";
 import type { Route } from "./+types/post";
-import { href, isRouteErrorResponse, Link, Outlet } from "react-router";
 import { Image } from "@unpic/react";
+import { H1, P, Link } from "~/components/ui/Typography";
+import { PostSchema } from "~/schemas";
 
 export function meta({ data }: Route.MetaArgs) {
   return [
@@ -31,12 +32,8 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   if (isRouteErrorResponse(error) && error.status === 404) {
     return (
       <>
-        <h1 className="text-6xl font-bold text-balance capitalize">
-          The Post You&apos;re Looking for is missing...
-        </h1>
-        <p className="mt-4 text-gray-600">
-          We&apos;re investigating this case.
-        </p>
+        <H1>The Post You&apos;re Looking for is missing...</H1>
+        <P className="text-xl">We&apos;re investigating this case.</P>
         <Link to={href("/")} className="mt-4">
           Go back to homepage
         </Link>
@@ -52,32 +49,28 @@ export default function Post({ loaderData }: Route.ComponentProps) {
   return (
     <>
       <article>
-        <h1 className="text-6xl font-bold text-balance capitalize">
+        <Link to={href("/")}>&larr; Back to articles</Link>
+        <H1 className="mt-6 text-6xl font-bold text-balance capitalize">
           {post.title}
-        </h1>
-        <div className="mt-4 flex gap-2">
-          <Link
-            className="underline"
-            to={href("/posts/:postId/edit", { postId: String(post.id) })}
-          >
+        </H1>
+        <div className="flex gap-2">
+          <Link to={href("/posts/:postId/edit", { postId: String(post.id) })}>
             Edit
           </Link>
-          <Link
-            className="underline"
-            to={href("/posts/:postId/delete", { postId: String(post.id) })}
-          >
+          <Link to={href("/posts/:postId/delete", { postId: String(post.id) })}>
             Delete
           </Link>
         </div>
         <Image
+          className="mt-4 rounded-xl"
           src={post.img}
           layout="constrained"
           width={3000}
           aspectRatio={2.5}
           background="auto"
-          alt=""
+          alt={post.title}
         />
-        <p className="mt-4 text-gray-600">{post.body}</p>
+        <P className="mt-4">{post.body}</P>
       </article>
       <Outlet />
     </>

@@ -1,3 +1,4 @@
+import { H1, H2, P } from "~/components/ui/Typography";
 export function meta() {
   return [
     { title: "About | Julien's Blog" },
@@ -10,8 +11,11 @@ export function meta() {
 export default function About() {
   return (
     <>
-      <h1>About this project</h1>
-      <p>Pictures by Jeremy Bishop from Unsplash</p>
+      <H1>About this project</H1>
+      <H2>Creator</H2>
+      <P>Julien Piron</P>
+      <H2>Credits</H2>
+      <P>Pictures by Jeremy Bishop from Unsplash</P>
     </>
   );
 }

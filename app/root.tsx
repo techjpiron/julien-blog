@@ -9,6 +9,18 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 
+export const links: Route.LinksFunction = () => [
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap",
+  },
+];
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -18,7 +30,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-body">
         {children}
         <ScrollRestoration />
         <Scripts />

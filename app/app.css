@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @plugin "tailwindcss-react-aria-components";
+
+@theme {
+  --font-header: "Karla", sans-serif;
+  --font-body: "Inconsolata", monospace;
+}

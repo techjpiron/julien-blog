@@ -1,16 +1,11 @@
 import { Form, href, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/post.edit";
 import { parseWithZod } from "@conform-to/zod";
-import {
-  getFormProps,
-  getInputProps,
-  getTextareaProps,
-  useForm,
-} from "@conform-to/react";
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { PostSchema, UpdatePostSchema } from "~/schemas";
-import { FieldError, Heading } from "react-aria-components";
 import { Button } from "~/components/ui/Button";
-import { Input, Label, TextArea, TextField } from "~/components/ui/Field";
+import { Input, TextArea, TextField } from "~/components/ui/Form";
+import { Link, Heading } from "~/components/ui/Typography";
 import { Dialog } from "~/components/ui/Dialog";
 import { Modal } from "~/components/ui/Modal";
 import { commitSession, getSession } from "~/session.server";
@@ -75,6 +70,7 @@ export default function EditPost({
 }: Route.ComponentProps) {
   const { post } = loaderData;
   const navigation = useNavigation();
+  const isUpdating = navigation.formAction?.match(`/posts/${post.id}/edit`);
 
   const [form, fields] = useForm({
     lastResult: actionData,
@@ -91,27 +87,29 @@ export default function EditPost({
         <Form method="POST" {...getFormProps(form)}>
           <Heading slot="title">Edit Post</Heading>
           <input {...getInputProps(fields.id, { type: "hidden" })} />
-          <TextField
-            {...getInputProps(fields.title, { type: "text" })}
-            isInvalid={!fields.title.valid}
-          >
-            <Label>Title</Label>
+          <TextField label="Title" field={fields.title}>
             <Input />
-            <FieldError>{fields.title.errors?.[0]}</FieldError>
           </TextField>
-          <TextField
-            {...getTextareaProps(fields.body)}
-            isInvalid={!fields.body.valid}
-          >
-            <Label>Content</Label>
+          <TextField label="Content" field={fields.body}>
             <TextArea />
-            <FieldError>{fields.body.errors?.[0]}</FieldError>
           </TextField>
-          <Button variant="primary" type="submit" className="mt-4">
-            {navigation.formAction?.match(`/posts/${post.id}/edit`)
-              ? "Updating..."
-              : "Update"}
-          </Button>
+          <div className="mt-4 flex items-baseline gap-2">
+            <Link
+              to={".."}
+              autoFocus
+              onClick={(event) => {
+                if (isUpdating) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              }}
+            >
+              Cancel
+            </Link>
+            <Button type="submit">
+              {isUpdating ? "Updating..." : "Update"}
+            </Button>
+          </div>
         </Form>
       </Dialog>
     </Modal>

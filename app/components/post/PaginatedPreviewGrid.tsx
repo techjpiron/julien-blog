@@ -1,6 +1,6 @@
 import type { PostCollection } from "~/schemas";
 import { PostPreviewCard } from "./PostPreviewCard";
-import { Link, useSearchParams } from "react-router";
+import { href, Link, useSearchParams } from "react-router";
 import { z } from "zod";
 
 export function PaginatedPreviewGrid({
@@ -13,6 +13,7 @@ export function PaginatedPreviewGrid({
   const [searchParams] = useSearchParams();
 
   const page = z.coerce.number().parse(searchParams.get("p") ?? 1);
+  const q = searchParams.get("q") ?? "";
 
   const start = (page - 1) * count;
   const end = start + count;
@@ -22,7 +23,7 @@ export function PaginatedPreviewGrid({
 
   return (
     <>
-      <ul className="mt-8 grid grid-cols-3 gap-4">
+      <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {selectedPosts.map((post) => (
           <li key={post.id}>
             <PostPreviewCard post={post} />
@@ -31,7 +32,17 @@ export function PaginatedPreviewGrid({
       </ul>
       <div className="my-8 flex justify-between">
         {page > 1 ? (
-          <Link to={`?p=${page - 1}`}>&larr; Previous Page</Link>
+          <Link
+            to={{
+              pathname: href("/"),
+              search: new URLSearchParams({
+                q,
+                p: String(page - 1),
+              }).toString(),
+            }}
+          >
+            &larr; Previous Page
+          </Link>
         ) : (
           <span
             role="link"
@@ -42,7 +53,17 @@ export function PaginatedPreviewGrid({
           </span>
         )}
         {page < maxPage ? (
-          <Link to={`?p=${page + 1}`}>Next Page &rarr;</Link>
+          <Link
+            to={{
+              pathname: href("/"),
+              search: new URLSearchParams({
+                q,
+                p: String(page + 1),
+              }).toString(),
+            }}
+          >
+            Next Page &rarr;
+          </Link>
         ) : (
           <span
             role="link"

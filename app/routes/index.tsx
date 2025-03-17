@@ -2,6 +2,7 @@ import type { Route } from "./+types/index";
 import { PostCollectionSchema } from "~/schemas";
 import { PaginatedPreviewGrid } from "~/components/post/PaginatedPreviewGrid";
 import { SearchForm } from "~/components/post/SearchForm";
+import { H1, P } from "~/components/ui/Typography";
 
 export function meta() {
   return [
@@ -30,7 +31,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <h1 className="text-6xl font-bold text-balance">Welcome to my Blog</h1>
+      <H1>Welcome to my Blog</H1>
+      <P className="text-xl">
+        Lorem ipsum is a dummy or placeholder text commonly used in graphic
+        design, publishing, and web development to fill empty spaces in a layout
+        that does not yet have content.
+      </P>
       <SearchForm />
       <PaginatedPreviewGrid posts={posts} count={12} />
     </>

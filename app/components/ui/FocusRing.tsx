@@ -1,5 +1,5 @@
 import { tv } from "tailwind-variants";
 
 export const focusRing = tv({
-  base: "outline-offset-2 outline-blue-800 focus:outline-2",
+  base: "outline-none focus-visible:outline-offset-2 focus-visible:outline-gray-800 focus-visible:outline-solid focus-visible:outline-2",
 });

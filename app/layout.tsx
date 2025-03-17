@@ -1,9 +1,9 @@
-import { data, href, Link, Outlet } from "react-router";
-import { ButtonLink } from "~/components/ui/Button";
-import { NotificationCenter, toastQueue } from "./components/ui/Notifications";
-import type { Route } from "./+types/layout";
-import { commitSession, getSession } from "./session.server";
 import { useEffect } from "react";
+import type { Route } from "./+types/layout";
+import { data, href, Outlet } from "react-router";
+import { commitSession, getSession } from "~/session.server";
+import { NotificationCenter, toastQueue } from "~/components/ui/Notifications";
+import { Link } from "~/components/ui/Typography";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -31,21 +31,27 @@ export default function Layout({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <header className="sticky top-0 w-full border-b bg-white py-4">
-        <div className="mx-auto flex max-w-3xl justify-between">
-          <Link to={href("/")}>Julien&apos;s Blog</Link>
+      <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md transition-all duration-300">
+        <div className="mx-auto flex max-w-6xl justify-between px-4 py-4">
+          <Link
+            to={href("/")}
+            className="font-header text-gray-900 no-underline"
+          >
+            Julien&apos;s Blog
+          </Link>
           <nav>
-            <ul>
+            <ul className="flex space-x-2">
               <li>
-                <ButtonLink variant="secondary" to={href("/posts/new")}>
-                  New Post
-                </ButtonLink>
+                <Link to={href("/posts/new")}>New Post</Link>
+              </li>
+              <li>
+                <Link to={href("/about")}>About</Link>
               </li>
             </ul>
           </nav>
         </div>
       </header>
-      <main className="mx-auto mt-8 max-w-3xl">
+      <main className="mx-auto mt-8 max-w-6xl px-4">
         <Outlet />
       </main>
       <NotificationCenter />
