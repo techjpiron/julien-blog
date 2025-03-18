@@ -1,8 +1,8 @@
 import { Image } from "@unpic/react";
 import { href, Link } from "react-router";
 import type { Post } from "~/schemas";
-import { H2, P } from "../ui/Typography";
-import { focusRing } from "../ui/FocusRing";
+import { focusRing } from "~/components/ui/FocusRing";
+import { H2, P } from "~/components/ui/Typography";
 
 export function PostPreviewCard({ post }: { post: Post }) {
   return (

@@ -1,8 +1,8 @@
-import type { PostCollection } from "~/schemas";
-import { PostPreviewCard } from "./PostPreviewCard";
 import { href, useSearchParams } from "react-router";
-import { Link } from "../ui/Typography";
 import { z } from "zod";
+import type { PostCollection } from "~/schemas";
+import { PostPreviewCard } from "~/components/post/PostPreviewCard";
+import { Link } from "~/components/ui/Typography";
 
 export function PaginatedPreviewGrid({
   posts,

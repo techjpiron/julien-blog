@@ -1,9 +1,9 @@
 import { Form, href, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/post.delete";
-import { Modal, ModalOverlay } from "~/components/ui/Modal";
-import { Dialog } from "~/components/ui/Dialog";
-import { Button } from "~/components/ui/Button";
 import { commitSession, getSession } from "~/session.server";
+import { Button } from "~/components/ui/Button";
+import { Dialog } from "~/components/ui/Dialog";
+import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading, Link, P } from "~/components/ui/Typography";
 
 export function meta() {

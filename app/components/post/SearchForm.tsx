@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { Form, useNavigation, useSearchParams, useSubmit } from "react-router";
 import { SearchField, Button } from "react-aria-components";
+import { Form, useNavigation, useSearchParams, useSubmit } from "react-router";
 import { useSpinDelay } from "spin-delay";
 import { Input } from "~/components/ui/Form";
 

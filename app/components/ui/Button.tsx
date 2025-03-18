@@ -1,7 +1,7 @@
 import { composeRenderProps, Button as RACButton } from "react-aria-components";
 import type { ButtonProps } from "react-aria-components";
-import { tv } from "tailwind-variants";
 import { focusRing } from "./FocusRing";
+import { tv } from "tailwind-variants";
 
 const buttonStyles = tv({
   extend: focusRing,

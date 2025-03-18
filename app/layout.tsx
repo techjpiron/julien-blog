@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import type { Route } from "./+types/layout";
 import { data, href, Outlet } from "react-router";
+import type { Route } from "./+types/layout";
 import { commitSession, getSession } from "~/session.server";
 import { NotificationCenter, toastQueue } from "~/components/ui/Notifications";
 import { Link } from "~/components/ui/Typography";

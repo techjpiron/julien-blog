@@ -1,5 +1,5 @@
-import test, { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
+import test, { expect } from "@playwright/test";
 
 test("edit post", async ({ page }) => {
   const title = faker.lorem.sentence();

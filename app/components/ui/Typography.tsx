@@ -1,11 +1,11 @@
 import type { ComponentProps } from "react";
-import { Link as RRLink, type LinkProps } from "react-router";
 import {
   Heading as RACHeading,
   type HeadingProps,
 } from "react-aria-components";
-import { tv } from "tailwind-variants";
+import { Link as RRLink, type LinkProps } from "react-router";
 import { focusRing } from "./FocusRing";
+import { tv } from "tailwind-variants";
 
 const h1Styles = tv({
   base: "mb-4 font-header text-4xl font-bold md:text-5xl lg:text-6xl hyphens-auto",

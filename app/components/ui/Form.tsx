@@ -1,3 +1,5 @@
+import { getInputProps, type FieldMetadata } from "@conform-to/react";
+import type { ReactNode } from "react";
 import {
   Input as RACInput,
   TextField as RACTextField,
@@ -10,10 +12,8 @@ import {
   type TextAreaProps,
   type FieldErrorProps,
 } from "react-aria-components";
-import { tv } from "tailwind-variants";
 import { focusRing } from "./FocusRing";
-import { getInputProps, type FieldMetadata } from "@conform-to/react";
-import type { ReactNode } from "react";
+import { tv } from "tailwind-variants";
 
 export function Label(props: Omit<LabelProps, "className">) {
   return (

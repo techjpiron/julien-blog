@@ -1,4 +1,5 @@
 import { H1, H2, P } from "~/components/ui/Typography";
+
 export function meta() {
   return [
     { title: "About | Julien's Blog" },

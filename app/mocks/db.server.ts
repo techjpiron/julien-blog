@@ -1,6 +1,6 @@
-import { drop, factory, primaryKey } from "@mswjs/data";
 import data from "./data.json" with { type: "json" };
 import { faker } from "@faker-js/faker";
+import { drop, factory, primaryKey } from "@mswjs/data";
 
 let nextPostIndex = 101;
 

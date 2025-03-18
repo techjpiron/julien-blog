@@ -1,8 +1,8 @@
+import { Image } from "@unpic/react";
 import { href, isRouteErrorResponse, Outlet } from "react-router";
 import type { Route } from "./+types/post";
-import { Image } from "@unpic/react";
-import { H1, P, Link } from "~/components/ui/Typography";
 import { PostSchema } from "~/schemas";
+import { H1, P, Link } from "~/components/ui/Typography";
 
 export function meta({ data }: Route.MetaArgs) {
   return [

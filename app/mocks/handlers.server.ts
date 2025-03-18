@@ -1,5 +1,5 @@
-import { bypass, http, HttpResponse } from "msw";
 import { db, getNextPostIndex } from "./db.server";
+import { bypass, http, HttpResponse } from "msw";
 
 export const handlers = [
   http.post(

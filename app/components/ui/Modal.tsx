@@ -1,9 +1,9 @@
+import { motion } from "motion/react";
 import {
   ModalOverlay as RACModalOverlay,
   type ModalOverlayProps,
   Modal as RACModal,
 } from "react-aria-components";
-import { motion } from "motion/react";
 
 export const ModalOverlay = motion.create((props: ModalOverlayProps) => (
   <RACModalOverlay

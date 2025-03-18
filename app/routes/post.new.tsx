@@ -1,13 +1,13 @@
+import { useForm, getFormProps } from "@conform-to/react";
 import { href, redirect, Form, useNavigation } from "react-router";
 import type { Route } from "./+types/post.new";
-import { InsertPostSchema, PostSchema } from "~/schemas";
-import { Modal, ModalOverlay } from "~/components/ui/Modal";
-import { Dialog } from "~/components/ui/Dialog";
-import { Button } from "~/components/ui/Button";
-import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { parseWithZod } from "@conform-to/zod";
-import { useForm, getFormProps } from "@conform-to/react";
+import { InsertPostSchema, PostSchema } from "~/schemas";
 import { commitSession, getSession } from "~/session.server";
+import { Button } from "~/components/ui/Button";
+import { Dialog } from "~/components/ui/Dialog";
+import { Input, TextArea, TextField } from "~/components/ui/Form";
+import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading } from "~/components/ui/Typography";
 
 export function meta() {
