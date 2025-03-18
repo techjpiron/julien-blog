@@ -1,7 +1,8 @@
-import { getFormProps, useForm } from "@conform-to/react";
+import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { Form, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/login";
 import { parseWithZod } from "@conform-to/zod";
+import { z } from "zod";
 import { requireAnonymous } from "~/authentification.server";
 import { env } from "~/env.server";
 import { UserSchema } from "~/schemas";
@@ -10,15 +11,27 @@ import { Button } from "~/components/ui/Button";
 import { Dialog } from "~/components/ui/Dialog";
 import { Input, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
-import { Heading } from "~/components/ui/Typography";
+import { Heading, P } from "~/components/ui/Typography";
 
-export default function Login({ actionData }: Route.ComponentProps) {
+const LoginSchema = UserSchema.extend({
+  redirectTo: z.string(),
+});
+
+export default function Login({
+  actionData,
+  loaderData,
+}: Route.ComponentProps) {
+  const { message, redirectTo } = loaderData;
+
   const [form, fields] = useForm({
     lastResult: actionData,
     shouldValidate: "onSubmit",
     shouldRevalidate: "onInput",
     onValidate: ({ formData }) =>
-      parseWithZod(formData, { schema: UserSchema }),
+      parseWithZod(formData, { schema: LoginSchema }),
+    defaultValue: {
+      redirectTo: redirectTo ?? "/",
+    },
   });
   const navigation = useNavigation();
   const isLoggingIn = navigation.formAction === "/login";
@@ -33,6 +46,8 @@ export default function Login({ actionData }: Route.ComponentProps) {
         <Dialog>
           <Form method="post" {...getFormProps(form)}>
             <Heading slot="title">Sign in</Heading>
+            {message ? <P>{message}</P> : null}
+            <input {...getInputProps(fields.redirectTo, { type: "hidden" })} />
             <TextField label="Username" field={fields.username}>
               <Input />
             </TextField>
@@ -51,7 +66,11 @@ export default function Login({ actionData }: Route.ComponentProps) {
 
 export async function loader({ request }: Route.LoaderArgs) {
   await requireAnonymous(request);
-  return {};
+  const searchParams = new URL(request.url).searchParams;
+  const redirectTo = searchParams.get("redirectTo");
+  const message = searchParams.get("message");
+
+  return { redirectTo, message };
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -59,7 +78,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   const formData = await request.formData();
   const submission = parseWithZod(formData, {
-    schema: UserSchema.refine(
+    schema: LoginSchema.refine(
       ({ password }) => {
         // Only for demo purposes, not safe in production
         return password === env.USER_PASSWORD;
@@ -81,7 +100,7 @@ export async function action({ request }: Route.ActionArgs) {
     },
   ]);
 
-  return redirect("/", {
+  return redirect(submission.value.redirectTo ?? "/", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },

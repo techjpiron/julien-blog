@@ -2,6 +2,7 @@ import { useForm, getFormProps } from "@conform-to/react";
 import { href, redirect, Form, useNavigation } from "react-router";
 import type { Route } from "./+types/post.new";
 import { parseWithZod } from "@conform-to/zod";
+import { requireUser } from "~/authentification.server";
 import { InsertPostSchema, PostSchema } from "~/schemas";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
@@ -56,7 +57,13 @@ export function meta() {
   ];
 }
 
+export async function loader({ request }: Route.LoaderArgs) {
+  await requireUser(request, "You need to be signed in to create posts.");
+  return {};
+}
+
 export async function action({ request }: Route.ActionArgs) {
+  await requireUser(request, "You need to be signed in to create posts.");
   const session = await getSession(request.headers.get("Cookie"));
 
   const formData = await request.formData();

@@ -27,3 +27,4 @@ This is a demo blog to display my frontend skills.
 - Delete post after confirmation
 - About page
 - Login and logout
+- Authentification needed to create, edit, and delete posts

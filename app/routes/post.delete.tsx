@@ -1,5 +1,6 @@
 import { Form, href, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/post.delete";
+import { requireUser } from "~/authentification.server";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
 import { Dialog } from "~/components/ui/Dialog";
@@ -59,7 +60,12 @@ export function meta() {
   ];
 }
 
+export async function loader({ request }: Route.LoaderArgs) {
+  await requireUser(request, "You need to be signed in to delete this post.");
+}
+
 export async function action({ params, request }: Route.ActionArgs) {
+  await requireUser(request, "You need to be signed in to delete this post.");
   const session = await getSession(request.headers.get("Cookie"));
 
   await fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`, {

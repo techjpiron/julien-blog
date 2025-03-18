@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { expect, test } from "@playwright/test";
+import test, { expect } from "@playwright/test";
 
 test.beforeAll(async ({ request }) => {
   await request.post("/reset");

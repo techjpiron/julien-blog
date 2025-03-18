@@ -2,6 +2,7 @@ import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { Form, href, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/post.edit";
 import { parseWithZod } from "@conform-to/zod";
+import { requireUser } from "~/authentification.server";
 import { PostSchema, UpdatePostSchema } from "~/schemas";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
@@ -77,7 +78,8 @@ export function meta() {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
+  await requireUser(request, "You need to be signed in to edit this post.");
   const { postId } = params;
 
   const post = await fetch(
@@ -90,6 +92,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
+  await requireUser(request, "You need to be signed in to edit this post.");
   const session = await getSession(request.headers.get("Cookie"));
 
   const formData = await request.formData();
