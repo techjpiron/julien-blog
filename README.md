@@ -7,11 +7,15 @@ This is a demo blog to display my frontend skills.
 ## Design
 
 - 🚀 Server-side rendering with react-router
+- 🗒️ React.js
 - 🔒 TypeScript for type safety
 - 🎉 TailwindCSS for styling
+- 📱 Responsive design
 - ✍️  Form validation
 - 🖼️ Image lazy loading
 - 😎 Accessible with keyboard using react-aria
+- 📨 Notification when users create, update, and delete posts
+- 🌊 Deployed on OceanCloud within a Docker image
 
 ## Features
 - List posts on homepage
