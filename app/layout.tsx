@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { data, href, Outlet } from "react-router";
 import type { Route } from "./+types/layout";
-import { LogoutForm } from "./routes/logout";
+import { Button } from "./components/ui/Button";
 import { commitSession, getSession } from "~/session.server";
+import { MenuItem, MenuTrigger, Popover, Menu } from "~/components/ui/Menu";
 import { NotificationCenter, toastQueue } from "~/components/ui/Notifications";
 import { Link } from "~/components/ui/Typography";
 
@@ -26,21 +27,20 @@ export default function Layout({ loaderData }: Route.ComponentProps) {
             Julien&apos;s Blog
           </Link>
           <nav>
-            <ul className="flex space-x-2 items-baseline">
-              <li>
-                <Link to={href("/posts/new")}>New Post</Link>
-              </li>
-              <li>
-                <Link to={href("/about")}>About</Link>
-              </li>
-              <li>
-                {user ? (
-                  <LogoutForm />
-                ) : (
-                  <Link to={href("/login")}>Sign in</Link>
-                )}
-              </li>
-            </ul>
+            <MenuTrigger>
+              <Button aria-label="Menu">☰</Button>
+              <Popover>
+                <Menu>
+                  <MenuItem href={href("/posts/new")}>New Post</MenuItem>
+                  <MenuItem href={href("/about")}>About</MenuItem>
+                  {user ? (
+                    <MenuItem href={href("/logout")}>Sign out</MenuItem>
+                  ) : (
+                    <MenuItem href={href("/login")}>Sign in</MenuItem>
+                  )}
+                </Menu>
+              </Popover>
+            </MenuTrigger>
           </nav>
         </div>
       </header>

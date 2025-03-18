@@ -6,7 +6,8 @@ test("login and logout", async ({ page }) => {
   await page.goto("/");
 
   // Log in
-  await page.getByRole("link", { name: "Sign in" }).click();
+  await page.getByRole("button", { name: /menu/i }).click();
+  await page.getByRole("menuitem", { name: "Sign in" }).click();
 
   await page.waitForURL("/login");
 
@@ -27,6 +28,11 @@ test("login and logout", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(/tapio/);
 
   // Log out
+  await page.getByRole("button", { name: /menu/i }).click();
+  await page.getByRole("menuitem", { name: "Sign out" }).click();
+
+  await page.waitForURL("/logout");
+
   await page.getByRole("button", { name: /sign out/i }).click();
 
   await expect(page.getByRole("heading", { level: 1 })).not.toHaveText(/tapio/);

@@ -3,7 +3,8 @@ import { expect, test } from "@playwright/test";
 test("visit about page", async ({ page }) => {
   await page.goto("/");
 
-  await page.getByRole("link", { name: /about/i }).click();
+  await page.getByRole("button", { name: /menu/i }).click();
+  await page.getByRole("menuitem", { name: /about/i }).click();
 
   await expect(page).toHaveURL("/about");
 

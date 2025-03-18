@@ -7,7 +7,8 @@ test("create a new post", async ({ page }) => {
 
   await page.goto("/");
 
-  await page.getByRole("link", { name: /new post/i }).click();
+  await page.getByRole("button", { name: /menu/i }).click();
+  await page.getByRole("menuitem", { name: /new post/i }).click();
   await expect(page).toHaveURL("/posts/new");
 
   await page.getByLabel(/title/i).fill(title);

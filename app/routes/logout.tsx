@@ -2,14 +2,32 @@ import { Form, redirect } from "react-router";
 import type { Route } from "./+types/logout";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
+import { Dialog } from "~/components/ui/Dialog";
+import { Modal, ModalOverlay } from "~/components/ui/Modal";
+import { Heading, Link, P } from "~/components/ui/Typography";
 
-export function LogoutForm() {
+export default function Logout() {
   return (
-    <Form method="post" action="/logout">
-      <Button type="submit" variant="link">
-        Sign out
-      </Button>
-    </Form>
+    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+      <Modal
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, stiffness: 30 }}
+      >
+        <Dialog>
+          <Form method="POST">
+            <Heading slot="title">Sign out</Heading>
+            <P>You&apos;re about to sign out. Are you sure?</P>
+            <div className="mt-4 flex items-baseline gap-2">
+              <Link to={".."} autoFocus>
+                Cancel
+              </Link>
+              <Button type="submit">Sign out</Button>
+            </div>
+          </Form>
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   );
 }
 

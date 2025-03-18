@@ -1,3 +1,4 @@
+import { RouterProvider } from "react-aria-components";
 import {
   isRouteErrorResponse,
   Links,
@@ -5,10 +6,19 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useHref,
+  useNavigate,
+  type NavigateOptions,
 } from "react-router";
 import type { Route } from "./+types/root";
 import "~/app.css";
 import { H1, P } from "~/components/ui/Typography";
+
+declare module "react-aria-components" {
+  interface RouterConfig {
+    routerOptions: NavigateOptions;
+  }
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -41,7 +51,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const navigate = useNavigate();
+  return (
+    <RouterProvider navigate={navigate} useHref={useHref}>
+      <Outlet />
+    </RouterProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
