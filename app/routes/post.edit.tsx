@@ -1,5 +1,5 @@
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
-import { Form, href, redirect, useNavigation } from "react-router";
+import { Form, href, redirect, useNavigate, useNavigation } from "react-router";
 import type { Route } from "./+types/post.edit";
 import { parseWithZod } from "@conform-to/zod";
 import { requireUser } from "~/authentification.server";
@@ -10,6 +10,7 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Link, Heading } from "~/components/ui/Typography";
+import { useBackLink } from "~/components/ui/useBackLink";
 
 export default function EditPost({
   loaderData,
@@ -17,6 +18,8 @@ export default function EditPost({
 }: Route.ComponentProps) {
   const { post } = loaderData;
   const navigation = useNavigation();
+  const navigate = useNavigate();
+  const backLink = useBackLink();
   const isUpdating = navigation.formAction?.match(`/posts/${post.id}/edit`);
 
   const [form, fields] = useForm({
@@ -29,7 +32,17 @@ export default function EditPost({
   });
 
   return (
-    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+    <ModalOverlay
+      isDismissable
+      defaultOpen
+      initial={{ opacity: 0.8 }}
+      animate={{ opacity: 1 }}
+      onOpenChange={(open) => {
+        if (!open) {
+          navigate(backLink);
+        }
+      }}
+    >
       <Modal
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -47,7 +60,7 @@ export default function EditPost({
             </TextField>
             <div className="mt-4 flex items-baseline gap-2">
               <Link
-                to={".."}
+                to={backLink}
                 autoFocus
                 onClick={(event) => {
                   if (isUpdating) {

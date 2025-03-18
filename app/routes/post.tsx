@@ -3,9 +3,12 @@ import { href, isRouteErrorResponse, Outlet } from "react-router";
 import type { Route } from "./+types/post";
 import { PostSchema } from "~/schemas";
 import { H1, P, Link } from "~/components/ui/Typography";
+import { getCurrentURL } from "~/components/ui/useBackLink";
 
 export default function Post({ loaderData }: Route.ComponentProps) {
   const { post } = loaderData;
+  const currentURL = getCurrentURL();
+
   return (
     <>
       <article>
@@ -14,10 +17,16 @@ export default function Post({ loaderData }: Route.ComponentProps) {
           {post.title} &para;
         </H1>
         <div className="flex gap-2">
-          <Link to={href("/posts/:postId/edit", { postId: String(post.id) })}>
+          <Link
+            to={href("/posts/:postId/edit", { postId: String(post.id) })}
+            state={{ back: currentURL }}
+          >
             Edit
           </Link>
-          <Link to={href("/posts/:postId/delete", { postId: String(post.id) })}>
+          <Link
+            to={href("/posts/:postId/delete", { postId: String(post.id) })}
+            state={{ back: currentURL }}
+          >
             Delete
           </Link>
         </div>

@@ -1,4 +1,4 @@
-import { Form, href, redirect, useNavigation } from "react-router";
+import { Form, href, redirect, useNavigate, useNavigation } from "react-router";
 import type { Route } from "./+types/post.delete";
 import { requireUser } from "~/authentification.server";
 import { commitSession, getSession } from "~/session.server";
@@ -6,15 +6,28 @@ import { Button } from "~/components/ui/Button";
 import { Dialog } from "~/components/ui/Dialog";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading, Link, P } from "~/components/ui/Typography";
+import { useBackLink } from "~/components/ui/useBackLink";
 
 export default function DeletePost({ params }: Route.ComponentProps) {
   const { postId } = params;
   const navigation = useNavigation();
+  const navigate = useNavigate();
+  const backLink = useBackLink();
 
   const isDeleting = navigation.formAction?.match(`/posts/${postId}/delete`);
 
   return (
-    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+    <ModalOverlay
+      isDismissable
+      defaultOpen
+      initial={{ opacity: 0.8 }}
+      animate={{ opacity: 1 }}
+      onOpenChange={(open) => {
+        if (!open) {
+          navigate(backLink);
+        }
+      }}
+    >
       <Modal
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -29,7 +42,7 @@ export default function DeletePost({ params }: Route.ComponentProps) {
             </P>
             <div className="mt-4 flex items-baseline gap-2">
               <Link
-                to={".."}
+                to={backLink}
                 autoFocus
                 onClick={(event) => {
                   if (isDeleting) {

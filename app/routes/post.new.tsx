@@ -1,5 +1,12 @@
 import { useForm, getFormProps } from "@conform-to/react";
-import { href, redirect, Form, useNavigation } from "react-router";
+import {
+  href,
+  redirect,
+  Form,
+  useNavigation,
+  Link,
+  useNavigate,
+} from "react-router";
 import type { Route } from "./+types/post.new";
 import { parseWithZod } from "@conform-to/zod";
 import { requireUser } from "~/authentification.server";
@@ -10,9 +17,13 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading } from "~/components/ui/Typography";
+import { useBackLink } from "~/components/ui/useBackLink";
 
 export default function NewPost({ actionData }: Route.ComponentProps) {
   const navigation = useNavigation();
+  const navigate = useNavigate();
+  const isSaving = navigation.formAction === "/posts/new";
+  const backLink = useBackLink();
   const [form, { title, body }] = useForm({
     lastResult: actionData,
     onValidate: ({ formData }) =>
@@ -22,7 +33,17 @@ export default function NewPost({ actionData }: Route.ComponentProps) {
   });
 
   return (
-    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+    <ModalOverlay
+      isDismissable
+      defaultOpen
+      initial={{ opacity: 0.8 }}
+      animate={{ opacity: 1 }}
+      onOpenChange={(open) => {
+        if (!open) {
+          navigate(backLink);
+        }
+      }}
+    >
       <Modal
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -37,9 +58,21 @@ export default function NewPost({ actionData }: Route.ComponentProps) {
             <TextField label="Content" field={body}>
               <TextArea />
             </TextField>
-            <Button type="submit" className="mt-4">
-              {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}
-            </Button>
+            <div className="mt-4 flex items-baseline gap-2">
+              <Link
+                to={backLink}
+                autoFocus
+                onClick={(event) => {
+                  if (isSaving) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                }}
+              >
+                Cancel
+              </Link>
+              <Button type="submit">{isSaving ? "Saving..." : "Save"}</Button>
+            </div>
           </Form>
         </Dialog>
       </Modal>

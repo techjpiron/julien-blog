@@ -64,3 +64,29 @@ test("get errors when the form is not valid", async ({ page }) => {
     "Your content must contain at least 5 characters",
   );
 });
+
+test("can cancel from homepage with filter", async ({ page }) => {
+  await page.goto("/?q=nihil&p=1");
+
+  await page.getByRole("button", { name: /menu/i }).click();
+  await page.getByRole("menuitem", { name: /new/i }).click();
+
+  await page.waitForURL("/posts/new");
+
+  await page.getByRole("link", { name: /cancel/i }).click();
+
+  expect(page).toHaveURL("/?q=nihil&p=1");
+});
+
+test("can cancel from post page", async ({ page }) => {
+  await page.goto("/posts/1");
+
+  await page.getByRole("button", { name: /menu/i }).click();
+  await page.getByRole("menuitem", { name: /new/i }).click();
+
+  await page.waitForURL("/posts/new");
+
+  await page.getByRole("link", { name: /cancel/i }).click();
+
+  expect(page).toHaveURL("/posts/1");
+});
