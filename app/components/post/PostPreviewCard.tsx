@@ -17,7 +17,7 @@ export function PostPreviewCard({ post }: { post: Post }) {
     >
       <article>
         <Image
-          className="transform-gpu text-white grayscale-50 duration-200 ease-out group-hover:grayscale-0"
+          className="transform-gpu text-white grayscale-0 duration-200 ease-out group-hover:grayscale-100"
           src={post.img}
           layout="constrained"
           width={800}
