@@ -11,6 +11,8 @@ This is a demo blog to display my frontend skills.
 - 🔒 TypeScript for type safety
 - 🎉 TailwindCSS for styling
 - 📱 Responsive design
+- 🔠 Data managed with react-router and cookie
+- 🔒 Basic authentification
 - ✍️  Form validation
 - 🖼️ Image lazy loading
 - 😎 Accessible with keyboard using react-aria
@@ -24,3 +26,4 @@ This is a demo blog to display my frontend skills.
 - Modify post
 - Delete post after confirmation
 - About page
+- Login and logout

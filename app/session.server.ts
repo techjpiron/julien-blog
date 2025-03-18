@@ -1,7 +1,7 @@
 import { createCookieSessionStorage } from "react-router";
 import { env } from "./env.server";
 
-type SessionData = never;
+type SessionData = { user?: { username: string } };
 type SessionFlashData = {
   notifications: Array<{ message: string; timeout: number }>;
 };

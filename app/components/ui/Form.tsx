@@ -50,7 +50,7 @@ export function TextField({
   children: ReactNode;
   label?: string;
   field: FieldMetadata;
-  type?: "text";
+  type?: "text" | "password";
 }) {
   return (
     <RACTextField

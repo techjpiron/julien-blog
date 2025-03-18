@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import {
   Button,
   UNSTABLE_ToastRegion as ToastRegion,
@@ -10,6 +11,8 @@ import { focusRing } from "./FocusRing";
 
 export const toastQueue = new ToastQueue<{ message: string }>();
 
+const AnimatedToast = motion.create(Toast);
+
 export function NotificationCenter() {
   return (
     <ToastRegion
@@ -19,7 +22,10 @@ export function NotificationCenter() {
       })}
     >
       {({ toast }) => (
-        <Toast
+        <AnimatedToast
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          key={toast.key}
           toast={toast}
           className={focusRing({
             className:
@@ -35,7 +41,7 @@ export function NotificationCenter() {
               &times;
             </Button>
           </ToastContent>
-        </Toast>
+        </AnimatedToast>
       )}
     </ToastRegion>
   );

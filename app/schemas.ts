@@ -21,3 +21,8 @@ export type UpdatePost = z.infer<typeof UpdatePostSchema>;
 
 export const PostCollectionSchema = z.array(PostSchema);
 export type PostCollection = z.infer<typeof PostCollectionSchema>;
+
+export const UserSchema = z.object({
+  username: z.string(),
+  password: z.string(),
+});

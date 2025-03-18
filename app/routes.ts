@@ -17,6 +17,8 @@ export default [
       route("new", "routes/post.new.tsx"),
     ]),
     route("about", "routes/about.tsx"),
+    route("login", "routes/login.tsx"),
+    route("logout", "routes/logout.tsx"),
   ]),
   route("reset", "routes/reset.tsx"),
 ] satisfies RouteConfig;

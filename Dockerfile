@@ -1,5 +1,6 @@
 FROM node:23-alpine AS base
 ARG APP_SECRET
+ARG USER_PASSWORD
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
