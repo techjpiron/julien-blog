@@ -1,5 +1,5 @@
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
-import { Form, redirect, useNavigation } from "react-router";
+import { Form, redirect, useNavigate, useNavigation } from "react-router";
 import type { Route } from "./+types/login";
 import { parseWithZod } from "@conform-to/zod";
 import { z } from "zod";
@@ -12,6 +12,7 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Input, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading, P } from "~/components/ui/Typography";
+import { useBackLink } from "~/components/ui/useBackLink";
 
 const LoginSchema = UserSchema.extend({
   redirectTo: z.string(),
@@ -34,10 +35,22 @@ export default function Login({
     },
   });
   const navigation = useNavigation();
+  const navigate = useNavigate();
+  const backLink = useBackLink();
   const isLoggingIn = navigation.formAction === "/login";
 
   return (
-    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+    <ModalOverlay
+      isDismissable
+      defaultOpen
+      initial={{ opacity: 0.8 }}
+      animate={{ opacity: 1 }}
+      onOpenChange={(open) => {
+        if (!open) {
+          navigate(backLink);
+        }
+      }}
+    >
       <Modal
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}

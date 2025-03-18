@@ -1,14 +1,28 @@
-import { Form, redirect } from "react-router";
+import { Form, redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/logout";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
 import { Dialog } from "~/components/ui/Dialog";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading, Link, P } from "~/components/ui/Typography";
+import { useBackLink } from "~/components/ui/useBackLink";
 
 export default function Logout() {
+  const navigate = useNavigate();
+  const backLink = useBackLink();
+
   return (
-    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+    <ModalOverlay
+      isDismissable
+      defaultOpen
+      initial={{ opacity: 0.8 }}
+      animate={{ opacity: 1 }}
+      onOpenChange={(open) => {
+        if (!open) {
+          navigate(backLink);
+        }
+      }}
+    >
       <Modal
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -19,7 +33,7 @@ export default function Logout() {
             <Heading slot="title">Sign out</Heading>
             <P>You&apos;re about to sign out. Are you sure?</P>
             <div className="mt-4 flex items-baseline gap-2">
-              <Link to={".."} autoFocus>
+              <Link to={backLink} autoFocus>
                 Cancel
               </Link>
               <Button type="submit">Sign out</Button>

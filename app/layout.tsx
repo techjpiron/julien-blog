@@ -45,9 +45,27 @@ export default function Layout({ loaderData }: Route.ComponentProps) {
                   </MenuItem>
                   <MenuItem href={href("/about")}>About</MenuItem>
                   {user ? (
-                    <MenuItem href={href("/logout")}>Sign out</MenuItem>
+                    <MenuItem
+                      href={href("/logout")}
+                      routerOptions={{
+                        state: {
+                          back: currentURL,
+                        },
+                      }}
+                    >
+                      Sign out
+                    </MenuItem>
                   ) : (
-                    <MenuItem href={href("/login")}>Sign in</MenuItem>
+                    <MenuItem
+                      href={href("/login")}
+                      routerOptions={{
+                        state: {
+                          back: currentURL,
+                        },
+                      }}
+                    >
+                      Sign in
+                    </MenuItem>
                   )}
                 </Menu>
               </Popover>
