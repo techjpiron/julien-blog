@@ -31,7 +31,10 @@ export function SearchForm() {
       className="mt-16 mb-8"
       ref={formRef}
       onChange={(event) =>
-        submit(event.currentTarget, { replace: !isFirstSearch })
+        submit(event.currentTarget, {
+          replace: !isFirstSearch,
+          preventScrollReset: true,
+        })
       }
     >
       <SearchField
@@ -42,10 +45,16 @@ export function SearchForm() {
         autoComplete="off"
         defaultValue={query}
         onClear={() =>
-          submit(formRef.current?.target ?? {}, { replace: !isFirstSearch })
+          submit(formRef.current?.target ?? {}, {
+            replace: !isFirstSearch,
+            preventScrollReset: true,
+          })
         }
         onChange={() =>
-          submit(formRef.current?.target ?? {}, { replace: !isFirstSearch })
+          submit(formRef.current?.target ?? {}, {
+            replace: !isFirstSearch,
+            preventScrollReset: true,
+          })
         }
       >
         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">

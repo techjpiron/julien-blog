@@ -42,7 +42,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const user = await getUser(request);
 
   const url = new URL(request.url);
-  const query = url.searchParams.get("q") ?? "";
+  const query = url.searchParams.get("q")?.toLowerCase() ?? "";
 
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
 

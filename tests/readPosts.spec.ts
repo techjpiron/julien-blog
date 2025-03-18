@@ -68,11 +68,16 @@ test("filter posts", async ({ page }) => {
 
   const searchField = page.getByLabel(/search posts/i);
 
-  await searchField.fill("nihil");
+  await searchField.fill("Nihil");
   await searchField.press("Enter");
 
-  expect(page).toHaveURL("/?q=nihil&p=1");
+  await expect(page).toHaveURL("/?q=Nihil&p=1");
 
-  expect(page.getByRole("article").first()).toHaveText(/nihil/i);
+  await expect(page.getByRole("article").first()).toHaveText(/nihil/i);
   expect(await page.getByRole("article").all()).toHaveLength(2);
+
+  await searchField.clear();
+  await searchField.fill("there will be obviously no result for this");
+
+  await expect(page.getByText("No result for your search")).toBeVisible();
 });

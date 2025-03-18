@@ -2,7 +2,7 @@ import { href, useSearchParams } from "react-router";
 import { z } from "zod";
 import type { PostCollection } from "~/schemas";
 import { PostPreviewCard } from "~/components/post/PostPreviewCard";
-import { Link } from "~/components/ui/Typography";
+import { H2, Link } from "~/components/ui/Typography";
 
 export function PaginatedPreviewGrid({
   posts,
@@ -23,6 +23,10 @@ export function PaginatedPreviewGrid({
   const maxPage = Math.ceil(posts.length / count);
   const isFirstPage = page <= 1;
   const isLastPage = page >= maxPage;
+
+  if (selectedPosts.length == 0) {
+    return <H2>No result for your search</H2>;
+  }
 
   return (
     <>
