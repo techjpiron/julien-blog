@@ -15,9 +15,9 @@ export function PostPreviewCard({ post }: { post: Post }) {
       prefetch="viewport"
       aria-label={post.title}
     >
-      <article className="transform-gpu duration-500 ease-in-out hover:scale-[1.03]">
+      <article className="group">
         <Image
-          className=""
+          className="transform-gpu text-white grayscale-50 duration-300 ease-linear group-hover:grayscale-0"
           src={post.img}
           layout="constrained"
           width={800}
@@ -26,7 +26,7 @@ export function PostPreviewCard({ post }: { post: Post }) {
         <div className="p-5">
           <H2 className="line-clamp-1 capitalize">{post.title}</H2>
           <P className="line-clamp-5">{post.body}</P>
-          <P className="font-bold text-gray-800 transition-all duration-100 ease-in-out hover:tracking-wide">
+          <P className="font-bold text-gray-800 transition-all duration-100 ease-in-out group-hover:tracking-wide">
             Read more &rarr;
           </P>
         </div>

@@ -21,6 +21,8 @@ export function PaginatedPreviewGrid({
   const selectedPosts = posts.slice(start, end);
 
   const maxPage = Math.ceil(posts.length / count);
+  const isFirstPage = page <= 1;
+  const isLastPage = page >= maxPage;
 
   return (
     <>
@@ -32,48 +34,30 @@ export function PaginatedPreviewGrid({
         ))}
       </ul>
       <div className="my-8 flex justify-between">
-        {page > 1 ? (
-          <Link
-            to={{
-              pathname: href("/"),
-              search: new URLSearchParams({
-                q,
-                p: String(page - 1),
-              }).toString(),
-            }}
-          >
-            &larr; Previous Page
-          </Link>
-        ) : (
-          <span
-            role="link"
-            aria-disabled
-            className="cursor-not-allowed text-gray-500"
-          >
-            &larr; Previous Page
-          </span>
-        )}
-        {page < maxPage ? (
-          <Link
-            to={{
-              pathname: href("/"),
-              search: new URLSearchParams({
-                q,
-                p: String(page + 1),
-              }).toString(),
-            }}
-          >
-            Next Page &rarr;
-          </Link>
-        ) : (
-          <span
-            role="link"
-            aria-disabled
-            className="cursor-not-allowed text-gray-500"
-          >
-            Next Page &rarr;
-          </span>
-        )}
+        <Link
+          className={isFirstPage ? "invisible" : ""}
+          to={{
+            pathname: href("/"),
+            search: new URLSearchParams({
+              q,
+              p: String(page - 1),
+            }).toString(),
+          }}
+        >
+          &larr; Previous Page
+        </Link>
+        <Link
+          className={isLastPage ? "invisible" : ""}
+          to={{
+            pathname: href("/"),
+            search: new URLSearchParams({
+              q,
+              p: String(page + 1),
+            }).toString(),
+          }}
+        >
+          Next Page &rarr;
+        </Link>
       </div>
     </>
   );

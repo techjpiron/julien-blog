@@ -63,7 +63,7 @@ export default function Post({ loaderData }: Route.ComponentProps) {
           </Link>
         </div>
         <Image
-          className="mt-4 rounded-xl"
+          className="mt-4 rounded-xl text-white"
           src={post.img}
           layout="constrained"
           width={3000}

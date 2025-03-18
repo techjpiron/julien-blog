@@ -14,7 +14,7 @@ export const ModalOverlay = motion.create((props: ModalOverlayProps) => (
 
 export const Modal = motion.create((props: ModalOverlayProps) => (
   <RACModal
-    className="max-h-full w-full max-w-md rounded-2xl border border-black/10 bg-white bg-clip-padding text-left align-middle text-slate-700 shadow-2xl"
+    className="max-h-full w-full max-w-md overflow-scroll rounded-2xl border border-black/10 bg-white text-left shadow-2xl"
     {...props}
   />
 ));
