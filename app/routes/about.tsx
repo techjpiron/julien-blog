@@ -7,6 +7,19 @@ export default function About() {
       <P>This is a demo blog to display my frontend skills.</P>
       <H2>Creator</H2>
       <P>Julien Piron</P>
+      <H2>Github repo</H2>
+      <P>
+        You can access the code on{" "}
+        <Link
+          className="mx-0 px-0"
+          to="https://github.com/techjpiron/fake-blog"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          my Github repo
+        </Link>
+        .
+      </P>
       <H2>Credits</H2>
       <P>
         Pictures from{" "}
