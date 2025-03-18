@@ -6,33 +6,6 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading, Link, P } from "~/components/ui/Typography";
 
-export function meta() {
-  return [
-    {
-      name: "robots",
-      content: "noindex",
-    },
-  ];
-}
-
-export async function action({ params, request }: Route.ActionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-
-  await fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`, {
-    method: "DELETE",
-  });
-
-  session.flash("notifications", [
-    { message: "The post was successfully deleted", timeout: 5_000 },
-  ]);
-
-  return redirect(href("/"), {
-    headers: {
-      "Set-Cookie": await commitSession(session),
-    },
-  });
-}
-
 export default function DeletePost({ params }: Route.ComponentProps) {
   const { postId } = params;
   const navigation = useNavigation();
@@ -75,4 +48,31 @@ export default function DeletePost({ params }: Route.ComponentProps) {
       </Modal>
     </ModalOverlay>
   );
+}
+
+export function meta() {
+  return [
+    {
+      name: "robots",
+      content: "noindex",
+    },
+  ];
+}
+
+export async function action({ params, request }: Route.ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  await fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`, {
+    method: "DELETE",
+  });
+
+  session.flash("notifications", [
+    { message: "The post was successfully deleted", timeout: 5_000 },
+  ]);
+
+  return redirect(href("/"), {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }

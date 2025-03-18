@@ -8,7 +8,6 @@ test("visit about page", async ({ page }) => {
   await expect(page).toHaveURL("/about");
 
   await expect(page.getByRole("heading", { name: /about/i })).toBeVisible();
-  await expect(
-    page.getByText("Pictures by Jeremy Bishop from Unsplash"),
-  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Annie Spratt" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Unsplash" })).toBeVisible();
 });

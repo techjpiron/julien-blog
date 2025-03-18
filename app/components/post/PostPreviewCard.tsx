@@ -9,15 +9,15 @@ export function PostPreviewCard({ post }: { post: Post }) {
     <Link
       className={focusRing({
         className:
-          "block h-full overflow-hidden rounded-xl border border-gray-200 shadow-sm",
+          "group duration-200 ease-out block h-full overflow-hidden rounded-xl border border-gray-200 shadow-sm transform-gpu hover:shadow-xl",
       })}
       to={href("/posts/:postId", { postId: String(post.id) })}
       prefetch="viewport"
       aria-label={post.title}
     >
-      <article className="group">
+      <article>
         <Image
-          className="transform-gpu text-white grayscale-50 duration-300 ease-linear group-hover:grayscale-0"
+          className="transform-gpu text-white grayscale-50 duration-200 ease-out group-hover:grayscale-0"
           src={post.img}
           layout="constrained"
           width={800}

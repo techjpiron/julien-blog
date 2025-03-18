@@ -10,6 +10,42 @@ import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading } from "~/components/ui/Typography";
 
+export default function NewPost({ actionData }: Route.ComponentProps) {
+  const navigation = useNavigation();
+  const [form, { title, body }] = useForm({
+    lastResult: actionData,
+    onValidate: ({ formData }) =>
+      parseWithZod(formData, { schema: InsertPostSchema }),
+    shouldValidate: "onSubmit",
+    shouldRevalidate: "onInput",
+  });
+
+  return (
+    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
+      <Modal
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, stiffness: 30 }}
+      >
+        <Dialog>
+          <Form method="POST" {...getFormProps(form)}>
+            <Heading slot="title">Create Post</Heading>
+            <TextField label="Title" field={title} autoComplete="off">
+              <Input />
+            </TextField>
+            <TextField label="Content" field={body}>
+              <TextArea />
+            </TextField>
+            <Button type="submit" className="mt-4">
+              {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}
+            </Button>
+          </Form>
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
+  );
+}
+
 export function meta() {
   return [
     { title: "New Post | Julien's Blog" },
@@ -50,40 +86,4 @@ export async function action({ request }: Route.ActionArgs) {
       "Set-Cookie": await commitSession(session),
     },
   });
-}
-
-export default function NewPost({ actionData }: Route.ComponentProps) {
-  const navigation = useNavigation();
-  const [form, { title, body }] = useForm({
-    lastResult: actionData,
-    onValidate: ({ formData }) =>
-      parseWithZod(formData, { schema: InsertPostSchema }),
-    shouldValidate: "onSubmit",
-    shouldRevalidate: "onInput",
-  });
-
-  return (
-    <ModalOverlay isOpen initial={{ opacity: 0.8 }} animate={{ opacity: 1 }}>
-      <Modal
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.2, stiffness: 30 }}
-      >
-        <Dialog>
-          <Form method="POST" {...getFormProps(form)}>
-            <Heading slot="title">Create Post</Heading>
-            <TextField label="Title" field={title} autoComplete="off">
-              <Input />
-            </TextField>
-            <TextField label="Content" field={body}>
-              <TextArea />
-            </TextField>
-            <Button type="submit" className="mt-4">
-              {navigation.formAction === "/posts/new" ? "Saving..." : "Save"}
-            </Button>
-          </Form>
-        </Dialog>
-      </Modal>
-    </ModalOverlay>
-  );
 }

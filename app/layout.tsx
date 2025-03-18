@@ -5,21 +5,6 @@ import { commitSession, getSession } from "~/session.server";
 import { NotificationCenter, toastQueue } from "~/components/ui/Notifications";
 import { Link } from "~/components/ui/Typography";
 
-export async function loader({ request }: Route.LoaderArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-
-  const notifications = session.get("notifications");
-
-  return data(
-    { notifications },
-    {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-      },
-    },
-  );
-}
-
 export default function Layout({ loaderData }: Route.ComponentProps) {
   const { notifications } = loaderData;
 
@@ -31,8 +16,8 @@ export default function Layout({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-20 w-full bg-white/90 backdrop-blur-md transition-all duration-300">
-        <div className="mx-auto flex max-w-3/4 justify-between px-4 py-4">
+      <header className="fixed top-0 z-20 w-full bg-white/90 backdrop-blur-md transition-all duration-300">
+        <div className="mx-auto flex max-w-3/4 justify-between px-4 py-4 items-baseline">
           <Link
             to={href("/")}
             className="font-header text-gray-900 no-underline"
@@ -51,10 +36,25 @@ export default function Layout({ loaderData }: Route.ComponentProps) {
           </nav>
         </div>
       </header>
-      <main className="mx-auto mt-8 max-w-3/4 px-4">
+      <main className="mx-auto mt-24 max-w-3/4 px-4">
         <Outlet />
       </main>
       <NotificationCenter />
     </>
+  );
+}
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  const notifications = session.get("notifications");
+
+  return data(
+    { notifications },
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    },
   );
 }

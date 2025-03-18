@@ -28,7 +28,7 @@ export function SearchForm() {
 
   return (
     <Form
-      className="mt-4"
+      className="mt-16 mb-8"
       ref={formRef}
       onChange={(event) =>
         submit(event.currentTarget, { replace: !isFirstSearch })
