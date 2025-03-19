@@ -1,15 +1,9 @@
 import { useForm, getFormProps } from "@conform-to/react";
-import {
-  href,
-  redirect,
-  Form,
-  useNavigation,
-  Link,
-  useNavigate,
-} from "react-router";
+import { href, redirect, Form, Link, useNavigate } from "react-router";
 import type { Route } from "./+types/post.new";
 import { parseWithZod } from "@conform-to/zod";
 import { requireUser } from "~/authentification.server";
+import { useIsSubmitting } from "~/hooks/useIsSubmitting";
 import { InsertPostSchema, PostSchema } from "~/schemas";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
@@ -17,13 +11,11 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading } from "~/components/ui/Typography";
-import { useBackLink } from "~/components/ui/useBackLink";
 
 export default function NewPost({ actionData }: Route.ComponentProps) {
-  const navigation = useNavigation();
   const navigate = useNavigate();
-  const isSaving = navigation.formAction === "/posts/new";
-  const backLink = useBackLink();
+  const isSaving = useIsSubmitting();
+
   const [form, { title, body }] = useForm({
     lastResult: actionData,
     onValidate: ({ formData }) =>
@@ -40,7 +32,7 @@ export default function NewPost({ actionData }: Route.ComponentProps) {
       animate={{ opacity: 1 }}
       onOpenChange={(open) => {
         if (!open) {
-          navigate(backLink);
+          navigate(-1);
         }
       }}
     >
@@ -59,16 +51,7 @@ export default function NewPost({ actionData }: Route.ComponentProps) {
               <TextArea />
             </TextField>
             <div className="mt-4 flex items-baseline gap-2">
-              <Link
-                to={backLink}
-                autoFocus
-                onClick={(event) => {
-                  if (isSaving) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                  }
-                }}
-              >
+              <Link to={".."} onClick={() => navigate(-1)}>
                 Cancel
               </Link>
               <Button type="submit">{isSaving ? "Saving..." : "Save"}</Button>

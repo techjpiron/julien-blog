@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { data, href, Outlet } from "react-router";
 import type { Route } from "./+types/layout";
 import { Button } from "./components/ui/Button";
-import { getCurrentURL } from "./components/ui/useBackLink";
 import { commitSession, getSession } from "~/session.server";
 import { MenuItem, MenuTrigger, Popover, Menu } from "~/components/ui/Menu";
 import { NotificationCenter, toastQueue } from "~/components/ui/Notifications";
@@ -10,7 +9,6 @@ import { Link } from "~/components/ui/Typography";
 
 export default function Layout({ loaderData }: Route.ComponentProps) {
   const { notifications, user } = loaderData;
-  const currentURL = getCurrentURL();
 
   useEffect(() => {
     notifications?.forEach(({ message, timeout }) =>
@@ -33,39 +31,12 @@ export default function Layout({ loaderData }: Route.ComponentProps) {
               <Button aria-label="Menu">☰</Button>
               <Popover>
                 <Menu>
-                  <MenuItem
-                    href={href("/posts/new")}
-                    routerOptions={{
-                      state: {
-                        back: currentURL,
-                      },
-                    }}
-                  >
-                    New Post
-                  </MenuItem>
+                  <MenuItem href={href("/posts/new")}>New Post</MenuItem>
                   <MenuItem href={href("/about")}>About</MenuItem>
                   {user ? (
-                    <MenuItem
-                      href={href("/logout")}
-                      routerOptions={{
-                        state: {
-                          back: currentURL,
-                        },
-                      }}
-                    >
-                      Sign out
-                    </MenuItem>
+                    <MenuItem href={href("/logout")}>Sign out</MenuItem>
                   ) : (
-                    <MenuItem
-                      href={href("/login")}
-                      routerOptions={{
-                        state: {
-                          back: currentURL,
-                        },
-                      }}
-                    >
-                      Sign in
-                    </MenuItem>
+                    <MenuItem href={href("/login")}>Sign in</MenuItem>
                   )}
                 </Menu>
               </Popover>

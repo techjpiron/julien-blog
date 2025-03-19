@@ -1,8 +1,9 @@
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
-import { Form, href, redirect, useNavigate, useNavigation } from "react-router";
+import { Form, href, redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/post.edit";
 import { parseWithZod } from "@conform-to/zod";
 import { requireUser } from "~/authentification.server";
+import { useIsSubmitting } from "~/hooks/useIsSubmitting";
 import { PostSchema, UpdatePostSchema } from "~/schemas";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
@@ -10,17 +11,15 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Input, TextArea, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Link, Heading } from "~/components/ui/Typography";
-import { useBackLink } from "~/components/ui/useBackLink";
 
 export default function EditPost({
   loaderData,
   actionData,
 }: Route.ComponentProps) {
   const { post } = loaderData;
-  const navigation = useNavigation();
+
   const navigate = useNavigate();
-  const backLink = useBackLink();
-  const isUpdating = navigation.formAction?.match(`/posts/${post.id}/edit`);
+  const isUpdating = useIsSubmitting();
 
   const [form, fields] = useForm({
     lastResult: actionData,
@@ -39,7 +38,7 @@ export default function EditPost({
       animate={{ opacity: 1 }}
       onOpenChange={(open) => {
         if (!open) {
-          navigate(backLink);
+          navigate(-1);
         }
       }}
     >
@@ -59,16 +58,7 @@ export default function EditPost({
               <TextArea />
             </TextField>
             <div className="mt-4 flex items-baseline gap-2">
-              <Link
-                to={backLink}
-                autoFocus
-                onClick={(event) => {
-                  if (isUpdating) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                  }
-                }}
-              >
+              <Link to={".."} onClick={() => navigate(-1)}>
                 Cancel
               </Link>
               <Button type="submit">

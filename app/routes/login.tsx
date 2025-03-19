@@ -1,10 +1,11 @@
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
-import { Form, redirect, useNavigate, useNavigation } from "react-router";
+import { Form, redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/login";
 import { parseWithZod } from "@conform-to/zod";
 import { z } from "zod";
 import { requireAnonymous } from "~/authentification.server";
 import { env } from "~/env.server";
+import { useIsSubmitting } from "~/hooks/useIsSubmitting";
 import { UserSchema } from "~/schemas";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
@@ -12,7 +13,6 @@ import { Dialog } from "~/components/ui/Dialog";
 import { Input, TextField } from "~/components/ui/Form";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading, P } from "~/components/ui/Typography";
-import { useBackLink } from "~/components/ui/useBackLink";
 
 const LoginSchema = UserSchema.extend({
   redirectTo: z.string(),
@@ -34,10 +34,9 @@ export default function Login({
       redirectTo: redirectTo ?? "/",
     },
   });
-  const navigation = useNavigation();
+
   const navigate = useNavigate();
-  const backLink = useBackLink();
-  const isLoggingIn = navigation.formAction === "/login";
+  const isLoggingIn = useIsSubmitting();
 
   return (
     <ModalOverlay
@@ -47,7 +46,7 @@ export default function Login({
       animate={{ opacity: 1 }}
       onOpenChange={(open) => {
         if (!open) {
-          navigate(backLink);
+          navigate(-1);
         }
       }}
     >

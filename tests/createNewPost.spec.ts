@@ -75,7 +75,7 @@ test("can cancel from homepage with filter", async ({ page }) => {
 
   await page.getByRole("link", { name: /cancel/i }).click();
 
-  expect(page).toHaveURL("/?q=nihil&p=1");
+  await expect(page).toHaveURL("/?q=nihil&p=1");
 });
 
 test("can cancel from post page", async ({ page }) => {
@@ -88,5 +88,5 @@ test("can cancel from post page", async ({ page }) => {
 
   await page.getByRole("link", { name: /cancel/i }).click();
 
-  expect(page).toHaveURL("/posts/1");
+  await expect(page).toHaveURL("/posts/1");
 });

@@ -37,6 +37,9 @@ test.describe("authentification", () => {
     await page.waitForURL("/logout");
 
     await page.getByRole("button", { name: /sign out/i }).click();
+    await expect(
+      page.getByRole("button", { name: "Signing out..." }),
+    ).toBeVisible();
 
     await expect(page.getByRole("heading", { level: 1 })).not.toHaveText(
       /tapio/,
@@ -60,6 +63,49 @@ test.describe("authentification", () => {
     await page.getByRole("button", { name: "Sign in" }).click();
 
     await expect(page).toHaveURL("/posts/1/edit");
+  });
+
+  test("can close login modal and go back to previous page", async ({
+    page,
+  }) => {
+    await page.goto("/posts/1");
+
+    await page.getByRole("link", { name: /edit/i }).click();
+
+    await page.waitForURL("/login*");
+
+    await page.getByRole("dialog").press("Escape");
+
+    await expect(page).toHaveURL("/posts/1");
+  });
+
+  test("can close logout modal and go back to previous page", async ({
+    page,
+  }) => {
+    // Login
+    await page.goto("/login");
+
+    await page.getByLabel(/username/i).fill("tapio");
+    await page.getByLabel(/password/i).fill(env.USER_PASSWORD);
+    await page.getByRole("button", { name: "Sign in" }).click();
+
+    await expect(
+      page.getByRole("button", { name: "Signing in..." }),
+    ).toBeVisible();
+
+    await page.waitForURL("/");
+
+    // Logout
+    await page.goto("/posts/2");
+
+    await page.getByRole("button", { name: /menu/i }).click();
+    await page.getByRole("menuitem", { name: /sign out/i }).click();
+
+    await page.waitForURL("/logout");
+
+    await page.getByRole("dialog").press("Escape");
+
+    await expect(page).toHaveURL("/posts/2");
   });
 });
 

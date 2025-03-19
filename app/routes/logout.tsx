@@ -1,15 +1,15 @@
-import { Form, redirect, useNavigate } from "react-router";
+import { Form, href, redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/logout";
+import { useIsSubmitting } from "~/hooks/useIsSubmitting";
 import { commitSession, getSession } from "~/session.server";
 import { Button } from "~/components/ui/Button";
 import { Dialog } from "~/components/ui/Dialog";
 import { Modal, ModalOverlay } from "~/components/ui/Modal";
 import { Heading, Link, P } from "~/components/ui/Typography";
-import { useBackLink } from "~/components/ui/useBackLink";
 
 export default function Logout() {
   const navigate = useNavigate();
-  const backLink = useBackLink();
+  const isLogginOut = useIsSubmitting();
 
   return (
     <ModalOverlay
@@ -19,7 +19,7 @@ export default function Logout() {
       animate={{ opacity: 1 }}
       onOpenChange={(open) => {
         if (!open) {
-          navigate(backLink);
+          navigate(-1);
         }
       }}
     >
@@ -33,10 +33,12 @@ export default function Logout() {
             <Heading slot="title">Sign out</Heading>
             <P>You&apos;re about to sign out. Are you sure?</P>
             <div className="mt-4 flex items-baseline gap-2">
-              <Link to={backLink} autoFocus>
+              <Link to={href("/")} onClick={() => navigate(-1)}>
                 Cancel
               </Link>
-              <Button type="submit">Sign out</Button>
+              <Button type="submit">
+                {isLogginOut ? "Signing out..." : "Sign out"}
+              </Button>
             </div>
           </Form>
         </Dialog>
