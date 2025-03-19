@@ -12,6 +12,7 @@ This is a demo blog to display my frontend skills.
 - 🎉 TailwindCSS for styling
 - 📱 Responsive design
 - 🔠 Data managed with react-router and cookie
+- 🎭 End-to-end testing with Playwright.js
 - 🔒 Basic authentification
 - ✍️  Form validation
 - 🖼️ Image lazy loading
